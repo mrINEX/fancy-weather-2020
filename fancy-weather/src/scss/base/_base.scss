@@ -8,8 +8,9 @@ html {
 }
 
 body {
-    color: darkslategray;
-    font-family: monospace, sans-serif;
+    color: white;
+    background: rgba(7, 7, 7, 0.733);
+    font-family: 'Montserrat', sans-serif;
     @include font($size: 1.6rem, $weight: normal);
 }
 
