@@ -1,0 +1,13 @@
+.wrapper {
+    max-width: 960px;
+    margin: auto;
+    @include media-tablet() {
+        max-width: 720px;
+    }
+    @include media-mobiles-big() {
+        max-width: 480px;
+    }
+    @include media-mobiles-small() {
+        max-width: 240px;
+    }
+}
