@@ -6,6 +6,7 @@ const DAYWEEK_RU = ['Воскресенье', 'Понедельник', 'Вто�
 const DAYWEEK_BE = ['Нядзеля', 'Панядзелак', 'Аўторак', 'Серада', 'Чацвер', 'Пятніца', 'Субота'];
 const { activeState } = require('./activeState');
 const { storageGet } = require('./localStorage');
+const { createElement } = require('./createElement');
 const { show } = require('./weatherLanguage');
 
 // imperial [F] metric [C] mph [F] m/s [C]
@@ -15,32 +16,46 @@ function weatherUser(lat, lon, measure) {
   return fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      document.querySelector('.temp').innerText = `${Math.round(result.list[0].main.temp)}°`;
-      document.querySelector('.imgWeather').src = `${URL_API_ICON}img/wn/${result.list[0].weather[0].icon}@2x.png`;
-      document.querySelector('.summaryWeather').textContent = result.list[0].weather[0].description.toUpperCase();
+      const todayWeather = createElement('div', { classList: ['today__weather'] });
+      const temp = createElement('span', { classList: ['today__temp'] });
+      const image = createElement('img', { classList: ['today__image'] });
+      const description = createElement('div', { classList: ['today__description'] });
+      todayWeather.append(temp, image, description);
+      temp.innerText = `${Math.round(result.list[0].main.temp)}°`;
+      image.src = `${URL_API_ICON}img/wn/${result.list[0].weather[0].icon}@2x.png`;
 
+      let elements;
       if (storageGet('language') === 'ru') {
-        show.showRU(result, measure);
+        elements = show.showRU(result, measure);
       } else if (storageGet('language') === 'be') {
-        show.showBE(result, measure);
+        elements = show.showBE(result, measure);
       } else {
-        show.showEN(result, measure);
+        elements = show.showEN(result, measure);
       }
+      elements.forEach((element) => description.append(element));
 
-      for (let i = 0, iweather = 8; i < 3; i += 1, iweather += 8) {
-        const spanDay = document.querySelector(`.day${i}`);
-        if (storageGet('language') === 'ru') {
-          spanDay.innerHTML = DAYWEEK_RU[new Date(result.list[iweather].dt_txt).getDay()];
-        } else if (storageGet('language') === 'be') {
-          spanDay.innerHTML = DAYWEEK_BE[new Date(result.list[iweather].dt_txt).getDay()];
-        } else {
-          spanDay.innerHTML = DAYWEEK_EN[new Date(result.list[iweather].dt_txt).getDay()];
-        }
-        const spanTempTomorrow = document.querySelector(`.temp${i}`);
-        spanTempTomorrow.innerHTML = `${Math.round(result.list[iweather].main.temp)}°`;
-        const imgWeatherTomorrow = document.querySelector(`.iconWeather${i}`);
-        imgWeatherTomorrow.src = `${URL_API_ICON}img/wn/${result.list[iweather].weather[0].icon}@2x.png`;
-      }
+      const tothreedays = createElement('div', { classList: ['tothreedays'] });
+      const tomorrow = createElement('div', { classList: ['tothreedays-tomorrow'] });
+      let iweather = 8;
+      [tomorrow, tomorrow.cloneNode(true), tomorrow.cloneNode(true)].forEach((node) => {
+        const tomorromDay = createElement('span', {
+          classList: ['tomorrow-day'],
+          innerText: DAYWEEK_EN[new Date(result.list[iweather].dt_txt).getDay()],
+        });
+        const tomorromTemp = createElement('span', {
+          classList: ['tomorrow-temp'],
+          innerText: `${Math.round(result.list[iweather].main.temp)}°`,
+        });
+        const tomorromImage = createElement('img', {
+          classList: ['tomorrow-image'],
+          src: `${URL_API_ICON}img/wn/${result.list[iweather].weather[0].icon}@2x.png`,
+        });
+        node.append(tomorromDay, tomorromTemp, tomorromImage);
+        tothreedays.append(node);
+        iweather += 8;
+      });
+      document.querySelector('.today').append(todayWeather);
+      document.querySelector('.wrapperForWeather').append(tothreedays);
       return result.list[0].weather[0].main;
     });
 }

@@ -1,11 +1,32 @@
 .wrapper {
-    @include media-tablet() {
-        max-width: 720px;
-    }
-    @include media-mobiles-big() {
-        max-width: 480px;
-    }
-    @include media-mobiles-small() {
-        max-width: 240px;
-    }
+    width: 1020px;
+    margin: auto;
+    // @include media-tablet() {
+    //     max-width: 720px;
+    // }
+    // @include media-mobiles-big() {
+    //     max-width: 480px;
+    // }
+    // @include media-mobiles-small() {
+    //     max-width: 240px;
+    // }
+}
+
+.weather {
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    margin: 10px;
+    background: rgba(7, 7, 7, 0.733);
+    padding: 10px;
+}
+
+.weather-image {
+    position: absolute;
+    z-index: -1;
+    top: -50%;
+    width: 100%;
 }

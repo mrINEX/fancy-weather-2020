@@ -8,7 +8,8 @@ function setBackgroundImage(monthtime, weather, city) {
     .then((result) => {
       const img = document.createElement('img');
       img.setAttribute('src', `${result.urls.regular}`);
-      document.querySelector('.background').after(img);
+      img.setAttribute('class', 'weather-image');
+      document.querySelector('.wrapper').append(img);
     });
 }
 

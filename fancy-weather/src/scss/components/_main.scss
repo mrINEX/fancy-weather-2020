@@ -1,0 +1,70 @@
+.main-weather {
+    display: flex;
+    justify-content: space-between;
+}
+
+.today__city {
+    font-size: 30px;
+}
+
+.today__date-time {
+    font-size: 20px;
+    .current-time {
+        padding: 0 30px;
+    }
+}
+
+.today__weather {
+    display: inline-flex;
+    position: relative;
+}
+
+.today__temp {
+    font-size: 170px;
+    display: block;
+}
+
+.today__image {
+    height: 100%;
+    background-color:#ffffff61;
+    border-radius: 30%;
+}
+
+.today__description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-shadow: black 0 0 3px;
+    padding: 15px;
+}
+
+.tothreedays {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tothreedays-tomorrow {
+    position: relative;
+    display: flex;
+}
+
+.today__description {
+    font-size: larger;
+}
+
+.tomorrow-image {
+    background-color: #ffffff61;
+    border-radius: 30%;
+}
+
+.tomorrow-day {
+    text-shadow: black 0 0 3px;
+    position: absolute;
+}
+
+.tomorrow-temp {
+    display: flex;
+    align-self: center;
+    text-shadow: black 0 0 3px;
+    font-size: 45px;
+}

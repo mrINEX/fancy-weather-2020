@@ -1,32 +1,19 @@
 const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const OF_YEAR = ['winter', 'spring', 'summer', 'autumn'];
 const { translate } = require('./translate');
+const { createElement } = require('./createElement');
 
 function showTime(data) {
   const today = new Date(data);
-  const date = `${String(today).substring(0, 3)} ${String(today).substring(8, 10)} ${MONTH[today.getMonth()]}`;
+  const date = `${DAYWEEK_EN[today.getDay()]} ${String(today).substring(8, 10)} ${MONTH[today.getMonth()]}`;
   const time = String(today).substring(16, 21);
-  const spanDate = document.querySelector('.date');
-  const spanTime = document.querySelector('.time');
+  const todayTime = createElement('div', { classList: ['today__date-time'] });
+  const spanDate = createElement('span');
+  const spanTime = createElement('span', { classList: ['current-time'] });
+  todayTime.append(spanDate, spanTime);
+  spanDate.textContent = date;
   spanTime.textContent = time;
-
-  const storageLanguage = localStorage.getItem('language');
-  if (storageLanguage === 'ru') {
-    const answer = translate(storageLanguage, date);
-    answer.then((dataRu) => {
-      spanDate.textContent = dataRu[0];
-    });
-  } else if (storageLanguage === 'be') {
-    const answer = translate(storageLanguage, date);
-    answer.then((dataBe) => {
-      spanDate.textContent = dataBe[0];
-    });
-  } else {
-    const answer = translate(storageLanguage, date);
-    answer.then((dataEn) => {
-      spanDate.textContent = dataEn[0];
-    });
-  }
 
   function years() {
     if (today.getMonth() < 2 || today.getMonth() > 10) {
@@ -38,10 +25,12 @@ function showTime(data) {
     if (today.getMonth() < 8 && today.getMonth() > 4) {
       return OF_YEAR[2];
     }
-    if (today.getMonth() < 11 && today.getMonth() > 7) {
-      return OF_YEAR[2];
-    }
+    // if (today.getMonth() < 11 && today.getMonth() > 7) {
+    return OF_YEAR[2];
+    // }
   }
+
+  document.querySelector('.today').append(todayTime);
 
   if (time.slice(0, -3) <= 6) {
     return `night,${years()}`;
@@ -52,7 +41,7 @@ function showTime(data) {
   if (time.slice(0, -3) > 12 && time.slice(0, -3) <= 18) {
     return `afternoon,${years()}`;
   }
-  return `evening,${years()}`; // ${MONTH[today.getMonth()]}
+  return `evening,${years()}`;
 }
 
 module.exports = {

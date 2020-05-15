@@ -1,3 +1,5 @@
+const { createElement } = require('./createElement');
+
 class City {
   constructor({ geometry, formatted, components }) {
     this.geometry = geometry;
@@ -6,25 +8,28 @@ class City {
   }
 
   infoCity() {
-    const spanCity = document.querySelector('.city');
-    const spanCountry = document.querySelector('.country');
+    const todayCity = createElement('div', { classList: ['today__city'] });
+    const city = createElement('span');
+    const country = createElement('span');
+    todayCity.append(city, country);
 
     if (this.components.city) {
-      spanCity.textContent = `${this.components.city.toUpperCase()},`;
-      spanCountry.textContent = ` ${this.components.country.toUpperCase()}`;
+      city.textContent = `${this.components.city.toUpperCase()},`;
+      country.textContent = ` ${this.components.country.toUpperCase()}`;
     } else if (this.components.county) {
-      spanCity.textContent = `${this.components.county.toUpperCase()},`;
-      spanCountry.textContent = ` ${this.components.country.toUpperCase()}`;
+      city.textContent = `${this.components.county.toUpperCase()},`;
+      country.textContent = ` ${this.components.country.toUpperCase()}`;
     } else if (this.components.state) {
-      spanCity.textContent = `${this.components.state.toUpperCase()},`;
-      spanCountry.textContent = ` ${this.components.country.toUpperCase()}`;
+      city.textContent = `${this.components.state.toUpperCase()},`;
+      country.textContent = ` ${this.components.country.toUpperCase()}`;
     } else if (this.components.county) {
-      spanCity.textContent = '';
-      spanCountry.textContent = `${this.formatted}`;
+      city.textContent = '';
+      country.textContent = `${this.formatted}`;
     } else {
-      spanCity.textContent = '';
-      spanCountry.textContent = `Country: ${this.components.country.toUpperCase()}`;
+      city.textContent = '';
+      country.textContent = `Country: ${this.components.country.toUpperCase()}`;
     }
+    document.querySelector('.today').append(todayCity);
   }
 
   infoGeometry() {

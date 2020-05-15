@@ -1,8 +1,10 @@
 const { createElement } = require('./createElement');
 
-const background = createElement('section', { classList: ['background'] });
-const wrapper = createElement('section', { classList: ['wrapper'] });
-const nav = createElement('nav', { classList: ['controls'] });
+const background = createElement('div', { classList: ['weather', 'wrapper'] });
+const wrapper = createElement('div', { classList: ['content'] });
+const nav = createElement('nav', { classList: ['nav'] });
+const navLeft = createElement('div', { classList: ['nav-left'] });
+const navRight = createElement('div', { classList: ['nav-right'] });
 const buttonSwitch = createElement('div', { classList: ['switch'] });
 const refresh = createElement('div', { classList: ['refresh'] });
 const buttonLanguage = createElement('select', {
@@ -35,51 +37,26 @@ const inputSubmit = createElement('input', {
   type: 'submit',
 });
 
+const mainWeather = createElement('div', { classList: ['main-weather'] });
 const wrapperForWeather = createElement('main', { classList: ['wrapperForWeather'] });
-const today = createElement('header', { classList: ['today'] });
-
-const spanCityCountry = createElement('div', { classList: ['cityCountry'] });
-const spanCity = createElement('span', { classList: ['city'] });
-const spanCountry = createElement('span', { classList: ['country'] });
-
-const spanDate = createElement('span', { classList: ['date'] });
-const spanTime = createElement('span', { classList: ['time'] });
-const spanTemp = createElement('span', { classList: ['temp'] });
-const imgWeather = createElement('img', { classList: ['imgWeather'] });
-
-const divDescription = createElement('div', { classList: ['description'] });
-const spanSummaryWeather = createElement('span', { classList: ['summaryWeather'] });
-const spanApparentTemp = createElement('span', { classList: ['apparentTemp'] });
-const spanWindSpeed = createElement('span', { classList: ['windSpeed'] });
-const spanHumidity = createElement('span', { classList: ['humidity'] });
-
-const tothreedays = createElement('section', { classList: ['tothreedays'] });
-for (let i = 0; i < 3; i += 1) {
-  const wrapperTomorrom = createElement('div', { classList: ['wrapperTomorrom'] });
-  const spanDayTomorrom = createElement('span', { classList: [`day${i}`] });
-  const spanTempTomorrom = createElement('span', { classList: [`temp${i}`] });
-  const imgWeatherTomorrom = createElement('img', { classList: [`iconWeather${i}`] });
-  tothreedays.append(wrapperTomorrom);
-  wrapperTomorrom.append(spanDayTomorrom);
-  wrapperTomorrom.append(spanTempTomorrom);
-  wrapperTomorrom.append(imgWeatherTomorrom);
-}
-
-const geodata = createElement('section', { classList: ['geodata'] });
+const today = createElement('div', { classList: ['today'] });
+const geodata = createElement('div', { classList: ['geodata'] });
 const mapiframe = createElement('iframe', { classList: ['maps'] });
 const spanLatitude = createElement('span', { classList: ['latitude'] });
 const spanLongitude = createElement('span', { classList: ['longitude'] });
 
 background.append(wrapper);
 wrapper.append(nav);
-wrapper.append(wrapperForWeather);
-wrapper.append(geodata);
-nav.append(buttonSwitch);
-nav.append(buttonLanguage);
-nav.append(buttonFC);
-nav.append(buttonSearch);
+wrapper.append(mainWeather);
+mainWeather.append(wrapperForWeather);
+mainWeather.append(geodata);
+nav.append(navLeft);
+nav.append(navRight);
+navLeft.append(buttonSwitch);
+navLeft.append(buttonLanguage);
+navLeft.append(buttonFC);
+navRight.append(buttonSearch);
 wrapperForWeather.append(today);
-wrapperForWeather.append(tothreedays);
 geodata.append(mapiframe);
 geodata.append(spanLatitude);
 geodata.append(spanLongitude);
@@ -94,17 +71,5 @@ divC.append(spanC);
 buttonSearch.append(inputSearch);
 buttonSearch.append(imgVoice);
 buttonSearch.append(inputSubmit);
-today.append(spanCityCountry);
-today.append(spanDate);
-today.append(spanTime);
-today.append(spanTemp);
-today.append(imgWeather);
-today.append(divDescription);
-spanCityCountry.append(spanCity);
-spanCityCountry.append(spanCountry);
-divDescription.append(spanSummaryWeather);
-divDescription.append(spanApparentTemp);
-divDescription.append(spanWindSpeed);
-divDescription.append(spanHumidity);
 
 document.querySelector('body').append(background);
