@@ -1,53 +1,62 @@
 const { createElement } = require('./createElement');
 
 class City {
-  constructor({ geometry, formatted, components }) {
-    this.geometry = geometry;
+  constructor({
+    geometry, formatted, components, url,
+  }) {
     this.formatted = formatted;
-    this.components = components;
+    this.city = components.city;
+    this.county = components.county;
+    this.country = components.country;
+    this.state = components.state;
+
+    this.map = url;
+    this.latitude = geometry.lat;
+    this.longitude = geometry.lng;
   }
 
   infoCity() {
     const todayCity = createElement('div', { classList: ['today__city'] });
-    const city = createElement('span');
-    const country = createElement('span');
+    const city = createElement('span', {
+      innerText: `${this.city || this.state || this.formatted},`,
+    });
+    const country = createElement('span', {
+      innerText: ` ${this.country || this.county}`,
+    });
     todayCity.append(city, country);
-
-    if (this.components.city) {
-      city.textContent = `${this.components.city.toUpperCase()},`;
-      country.textContent = ` ${this.components.country.toUpperCase()}`;
-    } else if (this.components.county) {
-      city.textContent = `${this.components.county.toUpperCase()},`;
-      country.textContent = ` ${this.components.country.toUpperCase()}`;
-    } else if (this.components.state) {
-      city.textContent = `${this.components.state.toUpperCase()},`;
-      country.textContent = ` ${this.components.country.toUpperCase()}`;
-    } else if (this.components.county) {
-      city.textContent = '';
-      country.textContent = `${this.formatted}`;
-    } else {
-      city.textContent = '';
-      country.textContent = `Country: ${this.components.country.toUpperCase()}`;
-    }
     document.querySelector('.today').append(todayCity);
   }
 
-  infoGeometry() {
+  infoDate() {
+    const todayTime = createElement('div', { classList: ['today__date-time'] });
+    const spanDate = createElement('span', {
+      innerText: `${this.day} ${this.date} ${this.month}`,
+    });
+    const spanTime = createElement('span', {
+      classList: ['current-time'],
+      innerText: `${this.time}`,
+    });
+    todayTime.append(spanDate, spanTime);
+    document.querySelector('.today').append(todayTime);
+  }
+
+  infoMap() {
+    document.querySelector('.maps').src = this.map;
     const storageLanguage = localStorage.getItem('language');
     const latitude = document.querySelector('.latitude');
     const longitude = document.querySelector('.longitude');
     switch (storageLanguage) {
       case 'ru':
-        latitude.textContent = `Широта: ${this.geometry.lat}`;
-        longitude.textContent = `Долгота: ${this.geometry.lng}`;
+        latitude.textContent = `Широта: ${this.latitude}`;
+        longitude.textContent = `Долгота: ${this.longitude}`;
         break;
       case 'be':
-        latitude.textContent = `Шырата: ${this.geometry.lat}`;
-        longitude.textContent = `Даўгата: ${this.geometry.lng}`;
+        latitude.textContent = `Шырата: ${this.latitude}`;
+        longitude.textContent = `Даўгата: ${this.longitude}`;
         break;
       default:
-        latitude.textContent = `Latitude: ${this.geometry.lat}`;
-        longitude.textContent = `Longitude: ${this.geometry.lng}`;
+        latitude.textContent = `Latitude: ${this.latitude}`;
+        longitude.textContent = `Longitude: ${this.longitude}`;
     }
   }
 }

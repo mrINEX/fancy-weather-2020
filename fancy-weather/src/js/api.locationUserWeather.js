@@ -10,9 +10,9 @@ const { createElement } = require('./createElement');
 const { show } = require('./weatherLanguage');
 
 // imperial [F] metric [C] mph [F] m/s [C]
-function weatherUser(lat, lon, measure) {
+function weatherUser(City, measure) { // City.geometry.lat, City.geometry.lng
   activeState(measure);
-  const url = `${URL_API_OPENWEATHER}data/2.5/forecast?lat=${lat}&lon=${lon}&lang=${storageGet('language')}&units=${measure}&APPID=${APPID}`;
+  const url = `${URL_API_OPENWEATHER}data/2.5/forecast?lat=${City.latitude}&lon=${City.longitude}&lang=en&units=${measure}&APPID=${APPID}`;
   return fetch(url)
     .then((response) => response.json())
     .then((result) => {

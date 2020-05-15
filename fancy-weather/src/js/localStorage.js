@@ -12,14 +12,17 @@ function storageGet(value) {
 function currentDegree() {
   if (storageGet('temp') === 'imperial') {
     document.querySelector('.degreeF').classList.add('degree_active');
-  } else {
-    document.querySelector('.degreeC').classList.add('degree_active');
+    return 'imperial';
   }
+  document.querySelector('.degreeC').classList.add('degree_active');
+  return 'metric';
 }
 
 function currentLanguage() {
   const option = document.querySelector('.language');
-  option.value = storageGet('language');
+  const lang = storageGet('language');
+  option.value = lang;
+  return lang;
 }
 
 module.exports = {
