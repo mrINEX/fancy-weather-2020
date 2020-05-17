@@ -5,9 +5,8 @@ const { timeCity } = require('./js/api.locationTimeZone');
 const { weatherUser } = require('./js/api.locationUserWeather');
 
 const { currentDegree, currentLanguage } = require('./js/localStorage');
-const { setBackgroundImage } = require('./js/setBackgroundImage');
 const { showTime } = require('./js/showTime');
-const { mapUser } = require('./js/mapUser');
+const { mapUser } = require('./js/api.locationUserMap');
 
 window.onload = () => {
   const degree = currentDegree(); // *imperial:[F]* or *metric:[C]*
@@ -16,10 +15,12 @@ window.onload = () => {
     dataCity(city).then((CityName) => {
       mapUser(CityName).then((CityMap) => {
         timeCity(CityMap).then((CityTimeZone) => {
-          showTime(CityTimeZone).then((CityTime) => {
-            weatherUser(CityTime, degree).then((description) => {
-              setBackgroundImage(description);
-            });
+          weatherUser(showTime(CityTimeZone), degree, language).then((CityFull) => {
+            console.log(CityFull);
+            CityFull.infoCity();
+            CityFull.infoDate();
+            CityFull.infoWeatherToday();
+            CityFull.infoMap();
           });
         });
       });

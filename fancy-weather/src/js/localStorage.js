@@ -12,8 +12,10 @@ function storageGet(value) {
 function currentDegree() {
   if (storageGet('temp') === 'imperial') {
     document.querySelector('.degreeF').classList.add('degree_active');
+    document.querySelector('.degreeC').classList.remove('degree_active');
     return 'imperial';
   }
+  document.querySelector('.degreeF').classList.remove('degree_active');
   document.querySelector('.degreeC').classList.add('degree_active');
   return 'metric';
 }

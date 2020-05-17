@@ -33,10 +33,6 @@ function showTime(node) {
     City.timeOfDay = 'evening';
   }
 
-  node.infoCity();
-  node.infoDate();
-  node.infoMap();
-
   return City;
 }
 

@@ -40,6 +40,22 @@ class City {
     document.querySelector('.today').append(todayTime);
   }
 
+  infoWeatherToday() {
+    const todayWeather = createElement('div', { classList: ['today__weather'] });
+    const temp = createElement('span', {
+      classList: ['today__temp'],
+      innerText: this.todayWeatherTemp,
+    });
+    const image = createElement('img', {
+      classList: ['today__image'],
+      src: this.todayWeatherIcon,
+    });
+    const description = createElement('div', { classList: ['today__description'] });
+    this.todayWeatherDescription.forEach((element) => description.append(element));
+    todayWeather.append(temp, image, description);
+    document.querySelector('.today').append(todayWeather);
+  }
+
   infoMap() {
     document.querySelector('.maps').src = this.map;
     const storageLanguage = localStorage.getItem('language');

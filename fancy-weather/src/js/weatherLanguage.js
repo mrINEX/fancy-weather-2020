@@ -1,46 +1,43 @@
 const { createElement } = require('./createElement');
 
-const show = {
-  summary: createElement('span', { classList: ['today__summary'] }),
-  apparentTemp: createElement('span', { classList: ['today__apparentTemp'] }),
-  windSpeed: createElement('span', { classList: ['today__windSpeed'] }),
-  humidity: createElement('span', { classList: ['today__humidity'] }),
-  showEN(result, measure) {
-    this.summary.textContent = result.list[0].weather[0].description.toUpperCase();
-    this.apparentTemp.textContent = `FEELS LIKE: ${result.list[0].main.feels_like}`;
-    if (measure === 'imperial') {
-      this.windSpeed.innerHTML = `WIND: ${result.list[0].wind.speed} mph`;
-    } else {
-      this.windSpeed.innerHTML = `WIND: ${result.list[0].wind.speed} m/s`;
+function show(result) {
+  const summary = createElement('span', { classList: ['today__summary'] });
+  const apparentTemp = createElement('span', { classList: ['today__apparentTemp'] });
+  const windSpeed = createElement('span', { classList: ['today__windSpeed'] });
+  const humidity = createElement('span', { classList: ['today__humidity'] });
+  return (language, measure) => {
+    if (language === 'ru') {
+      summary.textContent = result.list[0].weather[0].description.toUpperCase();
+      apparentTemp.textContent = `ОЩУЩАЕТСЯ КАК: ${result.list[0].main.feels_like}`;
+      if (measure === 'imperial') {
+        windSpeed.innerHTML = `ВЕТЕР: ${result.list[0].wind.speed} миль/ч`;
+      } else {
+        windSpeed.innerHTML = `ВЕТЕР: ${result.list[0].wind.speed} м/c`;
+      }
+      humidity.innerHTML = `ВЛАЖНОСТЬ: ${result.list[0].main.humidity} %`;
     }
-    this.humidity.innerHTML = `HUMIDITY: ${result.list[0].main.humidity} %`;
-    return [this.summary, this.apparentTemp, this.windSpeed, this.humidity];
-  },
-
-  showRU(result, measure) {
-    this.summary.textContent = result.list[0].weather[0].description.toUpperCase();
-    this.apparentTemp.textContent = `ОЩУЩАЕТСЯ КАК: ${result.list[0].main.feels_like}`;
-    if (measure === 'imperial') {
-      this.windSpeed.innerHTML = `ВЕТЕР: ${result.list[0].wind.speed} миль/ч`;
+    if (language === 'be') {
+      summary.textContent = result.list[0].weather[0].description.toUpperCase();
+      apparentTemp.textContent = `АДЧУВАЕЦЦА ЯК: ${result.list[0].main.feels_like}`;
+      if (measure === 'imperial') {
+        windSpeed.innerHTML = `ВЕЦЕР: ${result.list[0].wind.speed} міль/г`;
+      } else {
+        windSpeed.innerHTML = `ВЕЦЕР: ${result.list[0].wind.speed} м/c`;
+      }
+      humidity.innerHTML = `ВІЛЬГОТНАСЦЬ: ${result.list[0].main.humidity} %`;
     } else {
-      this.windSpeed.innerHTML = `ВЕТЕР: ${result.list[0].wind.speed} м/c`;
+      summary.textContent = result.list[0].weather[0].description.toUpperCase();
+      apparentTemp.textContent = `FEELS LIKE: ${result.list[0].main.feels_like}`;
+      if (measure === 'imperial') {
+        windSpeed.innerText = `WIND: ${result.list[0].wind.speed} mph`;
+      } else {
+        windSpeed.innerText = `WIND: ${result.list[0].wind.speed} m/s`;
+      }
+      humidity.innerText = `HUMIDITY: ${result.list[0].main.humidity} %`;
     }
-    this.humidity.innerHTML = `ВЛАЖНОСТЬ: ${result.list[0].main.humidity} %`;
-    return [this.summary, this.apparentTemp, this.windSpeed, this.humidity];
-  },
-
-  showBE(result, measure) {
-    this.summary.textContent = result.list[0].weather[0].description.toUpperCase();
-    this.apparentTemp.textContent = `АДЧУВАЕЦЦА ЯК: ${result.list[0].main.feels_like}`;
-    if (measure === 'imperial') {
-      this.windSpeed.innerHTML = `ВЕЦЕР: ${result.list[0].wind.speed} міль/г`;
-    } else {
-      this.windSpeed.innerHTML = `ВЕЦЕР: ${result.list[0].wind.speed} м/c`;
-    }
-    this.humidity.innerHTML = `ВІЛЬГОТНАСЦЬ: ${result.list[0].main.humidity} %`;
-    return [this.summary, this.apparentTemp, this.windSpeed, this.humidity];
-  },
-};
+    return [summary, apparentTemp, windSpeed, humidity];
+  };
+}
 
 module.exports = {
   show,
