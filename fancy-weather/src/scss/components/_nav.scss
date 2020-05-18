@@ -55,34 +55,34 @@
     animation: 1s infinite alternate colorChange;
 }
 
-.wrappfc {
+.degrees {
     display: flex;
     border-radius: 7px;
     background-color: rgba(128, 128, 128, 0.493);
 }
 
-.fahrenheit {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    &:hover {
-        animation: 1s infinite alternate colorChange;
-    }
-}
-
-.celsius {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    &:hover {
-        animation: 1s infinite alternate colorChange;
-    }
-}
-
-.degreeC,
 .degreeF {
+    cursor: pointer;
+    &:hover {
+        animation: 1s infinite alternate colorChange;
+    }
+}
+
+.degreeC {
+    cursor: pointer;
+    &:hover {
+        animation: 1s infinite alternate colorChange;
+    }
+}
+
+.fahrenheit,
+.celsius {
     display: flex;
     height: 100%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
 }
 
 .wrappersearch {

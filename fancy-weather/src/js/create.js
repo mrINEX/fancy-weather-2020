@@ -15,11 +15,11 @@ const optionEn = createElement('option', { classList: ['en'], value: 'en', inner
 const optionRu = createElement('option', { classList: ['ru'], value: 'ru', innerText: 'RU' });
 const optionBe = createElement('option', { classList: ['be'], value: 'be', innerText: 'BE' });
 
-const buttonFC = createElement('div', { classList: ['wrappfc'] });
-const divF = createElement('div', { classList: ['fahrenheit'] });
-const divC = createElement('div', { classList: ['celsius'] });
-const spanF = createElement('span', { classList: ['degreeF'], innerText: '°F' });
-const spanC = createElement('span', { classList: ['degreeC'], innerText: '°С' });
+const buttonFC = createElement('div', { classList: ['degrees'] });
+const divF = createElement('div', { classList: ['degreeF'] });
+const divC = createElement('div', { classList: ['degreeC'] });
+const spanF = createElement('span', { classList: ['fahrenheit'], innerText: '°F' });
+const spanC = createElement('span', { classList: ['celsius'], innerText: '°С' });
 
 const buttonSearch = createElement('div', { classList: ['wrappersearch'] });
 const inputSearch = createElement('input', {

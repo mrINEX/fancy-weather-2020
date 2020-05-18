@@ -2,50 +2,25 @@ const APPID = 'c6b65e868774bd345d33ca46c70b7a17';
 const URL_API_OPENWEATHER = 'https://api.openweathermap.org/';
 const URL_API_ICON = 'http://openweathermap.org/';
 
-const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const DAYWEEK_RU = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-const DAYWEEK_BE = ['Нядзеля', 'Панядзелак', 'Аўторак', 'Серада', 'Чацвер', 'Пятніца', 'Субота'];
-
-const { createElement } = require('./createElement');
 const { setBackgroundImage } = require('./setBackgroundImage');
-const { show } = require('./weatherLanguage');
+const { showToday, showTothreedays } = require('./weatherLanguage');
 
 // imperial [F] metric [C] mph [F] m/s [C]
-function weatherUser(node, measure, language) {
+function weatherUser(node, measure) {
   const City = node;
-  City.setBackground = setBackgroundImage;
   const url = `${URL_API_OPENWEATHER}data/2.5/forecast?lat=${City.latitude}&lon=${City.longitude}&lang=en&units=${measure}&APPID=${APPID}`;
   return fetch(url)
     .then((response) => response.json())
     .then((result) => {
+      City.weatherMain = result.list[0].weather[0].main;
       City.todayWeatherTemp = `${Math.round(result.list[0].main.temp)}°`;
       City.todayWeatherIcon = `${URL_API_ICON}img/wn/${result.list[0].weather[0].icon}@2x.png`;
-      City.todayWeatherDescription = show(result)(language, measure);
+      City.todayWeatherDescription = showToday(result, measure);
+      City.tothreedaysWeather = [showTothreedays(result, 8),
+        showTothreedays(result, 16),
+        showTothreedays(result, 24)];
+      City.setBackground = setBackgroundImage;
 
-      // three day
-      const tothreedays = createElement('div', { classList: ['tothreedays'] });
-      const tomorrow = createElement('div', { classList: ['tothreedays-tomorrow'] });
-      let iweather = 8;
-      [tomorrow, tomorrow.cloneNode(true), tomorrow.cloneNode(true)].forEach((node) => {
-        const tomorromDay = createElement('span', {
-          classList: ['tomorrow-day'],
-          innerText: DAYWEEK_EN[new Date(result.list[iweather].dt_txt).getDay()],
-        });
-        const tomorromTemp = createElement('span', {
-          classList: ['tomorrow-temp'],
-          innerText: `${Math.round(result.list[iweather].main.temp)}°`,
-        });
-        const tomorromImage = createElement('img', {
-          classList: ['tomorrow-image'],
-          src: `${URL_API_ICON}img/wn/${result.list[iweather].weather[0].icon}@2x.png`,
-        });
-        node.append(tomorromDay, tomorromTemp, tomorromImage);
-        tothreedays.append(node);
-        iweather += 8;
-      });
-      // document.querySelector('.today').append(todayWeather);
-      document.querySelector('.wrapperForWeather').append(tothreedays);
-      City.setBackground(City.timeOfDay, result.list[0].weather[0].main, City.city);
       return City;
     });
 }

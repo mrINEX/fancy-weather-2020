@@ -51,9 +51,19 @@ class City {
       src: this.todayWeatherIcon,
     });
     const description = createElement('div', { classList: ['today__description'] });
-    this.todayWeatherDescription.forEach((element) => description.append(element));
+    this.todayWeatherDescription().forEach((element) => description.append(element));
     todayWeather.append(temp, image, description);
     document.querySelector('.today').append(todayWeather);
+  }
+
+  infoWeatherTothreedays() {
+    const tothreedays = createElement('div', { classList: ['tothreedays'] });
+    this.tothreedaysWeather.forEach((element) => {
+      const tomorrow = createElement('div', { classList: ['tothreedays-tomorrow'] });
+      tomorrow.append(...element());
+      tothreedays.append(tomorrow);
+    });
+    document.querySelector('.wrapperForWeather').append(tothreedays);
   }
 
   infoMap() {
