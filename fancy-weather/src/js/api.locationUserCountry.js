@@ -1,10 +1,10 @@
 const URL_API = 'https://api.opencagedata.com/';
 const KEY = '12ff4fe1ac804a4689043079fcfc5b48';
 
-const { mapTranslate, cityTranslate, inputTranslate } = require('./weatherLanguage');
+const { mapTranslate, cityTranslate, inputTranslate } = require('./translater');
 const { City } = require('./City');
 
-function dataCity(city) {
+function getCountry(city) {
   const url = `${URL_API}geocode/v1/json?q=${city}&key=${KEY}&pretty=1&no_annotations=1&language=en`;
   return fetch(url)
     .then((response) => response.json())
@@ -20,5 +20,5 @@ function dataCity(city) {
 }
 
 module.exports = {
-  dataCity,
+  getCountry,
 };

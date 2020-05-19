@@ -1,9 +1,9 @@
 const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const { showTimeDate } = require('./weatherLanguage');
+const { showTimeDate } = require('./translater');
 
-function showTime(node) {
+function getTime(node) {
   const today = new Date(node.timeZone);
   const City = node;
 
@@ -11,7 +11,7 @@ function showTime(node) {
   City.day = DAYWEEK_EN[today.getDay()];
   City.date = String(today).substring(8, 10);
   City.month = MONTH[today.getMonth()];
-  City.time = String(today).substring(16, 21);
+  City.time = String(today).substring(16, 24);
 
   if (today.getMonth() < 2 || today.getMonth() > 10) {
     City.timeOfYear = 'winter';
@@ -40,5 +40,5 @@ function showTime(node) {
 }
 
 module.exports = {
-  showTime,
+  getTime,
 };

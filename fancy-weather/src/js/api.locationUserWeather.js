@@ -2,11 +2,11 @@ const APPID = 'c6b65e868774bd345d33ca46c70b7a17';
 const URL_API_OPENWEATHER = 'https://api.openweathermap.org/';
 const URL_API_ICON = 'http://openweathermap.org/';
 
-const { setBackgroundImage } = require('./setBackgroundImage');
-const { showToday, showTothreedays } = require('./weatherLanguage');
+const { setBackgroundImage } = require('./location.UserBackground');
+const { showToday, showTothreedays } = require('./translater');
 
 // imperial [F] metric [C] mph [F] m/s [C]
-function weatherUser(node, measure) {
+function getWeather(node, measure) {
   const City = node;
   const url = `${URL_API_OPENWEATHER}data/2.5/forecast?lat=${City.latitude}&lon=${City.longitude}&lang=en&units=${measure}&APPID=${APPID}`;
   return fetch(url)
@@ -25,5 +25,5 @@ function weatherUser(node, measure) {
 }
 
 module.exports = {
-  weatherUser,
+  getWeather,
 };

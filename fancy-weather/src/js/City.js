@@ -17,12 +17,14 @@ class City {
   }
 
   infoCity(language) {
+    exist('.today__city');
     const todayCity = createElement('div', { classList: ['today__city'] });
     this.transtaleCity(language).forEach((element) => todayCity.append(element));
     document.querySelector('.today').append(todayCity);
   }
 
   infoDate(language) {
+    exist('.today__date-time');
     const todayTime = createElement('div', { classList: ['today__date-time'] });
     this.dateTime(language).forEach((element) => todayTime.append(element));
     document.querySelector('.today').append(todayTime);

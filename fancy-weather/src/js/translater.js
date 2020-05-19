@@ -49,10 +49,13 @@ function cityTranslate(City) {
 }
 
 function showTimeDate(today) {
+  const hh = String(today).substring(16, 18);
+  const mm = String(today).substring(19, 21);
+  const ss = String(today).substring(22, 24);
   const spanDate = createElement('span');
   const spanTime = createElement('span', {
     classList: ['current-time'],
-    innerText: `${String(today).substring(16, 21)}`,
+    innerHTML: `<span>${hh}</span>:<span>${mm}</span>:<span>${ss}</span>`,
   });
   return (language) => {
     let day;
@@ -139,7 +142,9 @@ function showTothreedays(result, iweather) {
   };
 }
 
-function mapTranslate(lat, lon) {
+function mapTranslate(latInput, lonInput) {
+  const lat = `${latInput.toFixed(2).replace('.', '°')}'`;
+  const lon = `${lonInput.toFixed(2).replace('.', '°')}'`;
   const latitude = createElement('span', { classList: ['latitude'] });
   const longitude = createElement('span', { classList: ['longitude'] });
   return (language) => {

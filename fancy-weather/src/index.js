@@ -1,35 +1,62 @@
 require('./js/create');
 const { location } = require('./js/api.locationUser');
-const { dataCity } = require('./js/api.locationUserCountry');
-const { timeCity } = require('./js/api.locationTimeZone');
-const { weatherUser } = require('./js/api.locationUserWeather');
-const { mapUser } = require('./js/api.locationUserMap');
+const { getCountry } = require('./js/api.locationUserCountry');
+const { getZone } = require('./js/api.locationTimeZone');
+const { getWeather } = require('./js/api.locationUserWeather');
+const { getMap } = require('./js/api.locationUserMap');
 
 const { currentDegree, currentLanguage, storageSet } = require('./js/localStorage');
-const { showTime } = require('./js/showTime');
-const { exist } = require('./js/exist');
+const { speechInput } = require('./js/SpeechRecognition');
+const { getTime } = require('./js/location.UserTime');
+const { addInfo } = require('./js/addInfo');
+const { exist, error } = require('./js/exist');
 
 window.onload = () => {
   let currentCity;
+  let stopInterval;
   let degree = currentDegree(); // *imperial:[F]* or *metric:[C]*
   let language = currentLanguage(); // *en* or *ru* or *be*
   location().then((city) => { // start with city
-    dataCity(city).then((CityName) => {
-      mapUser(CityName).then((CityMap) => {
-        timeCity(CityMap).then((CityTimeZone) => {
-          weatherUser(showTime(CityTimeZone), degree).then((CityFull) => {
-            currentCity = CityFull;
-            currentCity.translateInput(language);
-            currentCity.infoCity(language);
-            currentCity.infoDate(language);
-            currentCity.infoWeatherToday(language);
-            currentCity.infoWeatherTothreedays(language);
-            currentCity.infoMap(language);
-            currentCity.infoBackground(currentCity.timeOfDay, currentCity.weatherMain, currentCity.city);
+    getCountry(city).then((country) => {
+      getMap(country).then((map) => {
+        getZone(map).then((zone) => {
+          getWeather(getTime(zone), degree).then((weather) => {
+            stopInterval = addInfo(weather, language, stopInterval);
+            currentCity = weather;
           });
         });
       });
     });
+  }).catch(error);
+
+  document.querySelector('.searchcityinput').addEventListener('change', ({ target }) => {
+    getCountry(target.value).then((country) => {
+      getMap(country).then((map) => {
+        getZone(map).then((zone) => {
+          getWeather(getTime(zone), degree).then((weather) => {
+            stopInterval = addInfo(weather, language, stopInterval);
+            currentCity = weather;
+          });
+        });
+      });
+    }).catch(error);
+  });
+
+  document.querySelector('.imgVoice').addEventListener('click', () => {
+    const recognition = speechInput(language);
+    recognition.onend = () => {
+      const result = document.querySelector('.searchcityinput').value;
+      getCountry(result).then((country) => {
+        getMap(country).then((map) => {
+          getZone(map).then((zone) => {
+            getWeather(getTime(zone), degree).then((weather) => {
+              stopInterval = addInfo(weather, language, stopInterval);
+              currentCity = weather;
+            });
+          });
+        });
+      }).catch(error);
+    };
   });
 
   document.querySelector('.language').addEventListener('change', ({ target }) => {
@@ -53,7 +80,7 @@ window.onload = () => {
       case 'fahrenheit':
         storageSet('temp', 'imperial');
         degree = currentDegree();
-        weatherUser(currentCity, 'imperial')
+        getWeather(currentCity, 'imperial')
           .then((City) => {
             currentCity = City;
             currentCity.infoWeatherToday(language);
@@ -63,7 +90,7 @@ window.onload = () => {
       case 'celsius':
         storageSet('temp', 'metric');
         degree = currentDegree();
-        weatherUser(currentCity, 'metric')
+        getWeather(currentCity, 'metric')
           .then((City) => {
             currentCity = City;
             currentCity.infoWeatherToday(language);
