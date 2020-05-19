@@ -4,11 +4,14 @@
 }
 
 .today__city {
-    font-size: 30px;
+    font-size: 32px;
+    padding: 20px 0 5px 0;
 }
 
 .today__date-time {
-    font-size: 20px;
+    font-size: 25px;
+    padding-bottom: 15px;
+    display: flex;
     .current-time {
         padding: 0 30px;
     }

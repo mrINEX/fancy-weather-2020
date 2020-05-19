@@ -1,6 +1,7 @@
 const URL_API = 'https://api.opencagedata.com/';
 const KEY = '12ff4fe1ac804a4689043079fcfc5b48';
 
+const { mapTranslate, cityTranslate, inputTranslate } = require('./weatherLanguage');
 const { City } = require('./City');
 
 function dataCity(city) {
@@ -9,6 +10,11 @@ function dataCity(city) {
     .then((response) => response.json())
     .then((result) => {
       const cityInfo = new City(result.results[0]);
+      cityInfo.placeholderInput = 'Search city';
+      cityInfo.valueInput = 'SEARCH';
+      cityInfo.translateInput = inputTranslate(cityInfo);
+      cityInfo.transtaleCity = cityTranslate(cityInfo);
+      cityInfo.translateMap = mapTranslate(cityInfo.latitude, cityInfo.longitude);
       return cityInfo;
     });
 }

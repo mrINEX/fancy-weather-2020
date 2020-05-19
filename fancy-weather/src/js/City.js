@@ -1,4 +1,5 @@
 const { createElement } = require('./createElement');
+const { exist } = require('./exist');
 
 class City {
   constructor({
@@ -15,32 +16,20 @@ class City {
     this.longitude = geometry.lng;
   }
 
-  infoCity() {
+  infoCity(language) {
     const todayCity = createElement('div', { classList: ['today__city'] });
-    const city = createElement('span', {
-      innerText: `${this.city || this.state || this.formatted},`,
-    });
-    const country = createElement('span', {
-      innerText: ` ${this.country || this.county}`,
-    });
-    todayCity.append(city, country);
+    this.transtaleCity(language).forEach((element) => todayCity.append(element));
     document.querySelector('.today').append(todayCity);
   }
 
-  infoDate() {
+  infoDate(language) {
     const todayTime = createElement('div', { classList: ['today__date-time'] });
-    const spanDate = createElement('span', {
-      innerText: `${this.day} ${this.date} ${this.month}`,
-    });
-    const spanTime = createElement('span', {
-      classList: ['current-time'],
-      innerText: `${this.time}`,
-    });
-    todayTime.append(spanDate, spanTime);
+    this.dateTime(language).forEach((element) => todayTime.append(element));
     document.querySelector('.today').append(todayTime);
   }
 
-  infoWeatherToday() {
+  infoWeatherToday(language) {
+    exist('.today__weather');
     const todayWeather = createElement('div', { classList: ['today__weather'] });
     const temp = createElement('span', {
       classList: ['today__temp'],
@@ -51,39 +40,32 @@ class City {
       src: this.todayWeatherIcon,
     });
     const description = createElement('div', { classList: ['today__description'] });
-    this.todayWeatherDescription().forEach((element) => description.append(element));
+    this.todayWeatherDescription(language).forEach((element) => description.append(element));
     todayWeather.append(temp, image, description);
     document.querySelector('.today').append(todayWeather);
   }
 
-  infoWeatherTothreedays() {
+  infoWeatherTothreedays(language) {
+    exist('.tothreedays');
     const tothreedays = createElement('div', { classList: ['tothreedays'] });
     this.tothreedaysWeather.forEach((element) => {
       const tomorrow = createElement('div', { classList: ['tothreedays-tomorrow'] });
-      tomorrow.append(...element());
+      tomorrow.append(...element(language));
       tothreedays.append(tomorrow);
     });
     document.querySelector('.wrapperForWeather').append(tothreedays);
   }
 
-  infoMap() {
-    document.querySelector('.maps').src = this.map;
-    const storageLanguage = localStorage.getItem('language');
-    const latitude = document.querySelector('.latitude');
-    const longitude = document.querySelector('.longitude');
-    switch (storageLanguage) {
-      case 'ru':
-        latitude.textContent = `Широта: ${this.latitude}`;
-        longitude.textContent = `Долгота: ${this.longitude}`;
-        break;
-      case 'be':
-        latitude.textContent = `Шырата: ${this.latitude}`;
-        longitude.textContent = `Даўгата: ${this.longitude}`;
-        break;
-      default:
-        latitude.textContent = `Latitude: ${this.latitude}`;
-        longitude.textContent = `Longitude: ${this.longitude}`;
-    }
+  infoMap(language) {
+    exist('.geodata');
+    const geodata = createElement('div', { classList: ['geodata'] });
+    const mapiframe = createElement('iframe', {
+      classList: ['maps'],
+      src: this.map,
+    });
+    geodata.append(mapiframe);
+    this.translateMap(language).forEach((element) => geodata.append(element));
+    document.querySelector('.main-weather').append(geodata);
   }
 }
 

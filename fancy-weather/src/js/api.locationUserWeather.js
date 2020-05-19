@@ -19,8 +19,7 @@ function weatherUser(node, measure) {
       City.tothreedaysWeather = [showTothreedays(result, 8),
         showTothreedays(result, 16),
         showTothreedays(result, 24)];
-      City.setBackground = setBackgroundImage;
-
+      City.infoBackground = setBackgroundImage;
       return City;
     });
 }

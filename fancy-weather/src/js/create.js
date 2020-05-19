@@ -2,6 +2,9 @@ const { createElement } = require('./createElement');
 
 const background = createElement('div', { classList: ['weather', 'wrapper'] });
 const wrapper = createElement('div', { classList: ['content'] });
+const loader = createElement('div', {
+  classList: ['loader', 'hidden'],
+});
 const nav = createElement('nav', { classList: ['nav'] });
 const navLeft = createElement('div', { classList: ['nav-left'] });
 const navRight = createElement('div', { classList: ['nav-right'] });
@@ -40,16 +43,11 @@ const inputSubmit = createElement('input', {
 const mainWeather = createElement('div', { classList: ['main-weather'] });
 const wrapperForWeather = createElement('main', { classList: ['wrapperForWeather'] });
 const today = createElement('div', { classList: ['today'] });
-const geodata = createElement('div', { classList: ['geodata'] });
-const mapiframe = createElement('iframe', { classList: ['maps'] });
-const spanLatitude = createElement('span', { classList: ['latitude'] });
-const spanLongitude = createElement('span', { classList: ['longitude'] });
 
 background.append(wrapper);
 wrapper.append(nav);
 wrapper.append(mainWeather);
 mainWeather.append(wrapperForWeather);
-mainWeather.append(geodata);
 nav.append(navLeft);
 nav.append(navRight);
 navLeft.append(buttonSwitch);
@@ -57,9 +55,6 @@ navLeft.append(buttonLanguage);
 navLeft.append(buttonFC);
 navRight.append(buttonSearch);
 wrapperForWeather.append(today);
-geodata.append(mapiframe);
-geodata.append(spanLatitude);
-geodata.append(spanLongitude);
 buttonSwitch.append(refresh);
 buttonLanguage.append(optionEn);
 buttonLanguage.append(optionRu);
@@ -72,4 +67,4 @@ buttonSearch.append(inputSearch);
 buttonSearch.append(imgVoice);
 buttonSearch.append(inputSubmit);
 
-document.querySelector('body').append(background);
+document.querySelector('body').append(background, loader);

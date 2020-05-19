@@ -1,10 +1,77 @@
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const DAYWEEK_RU = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 const DAYWEEK_BE = ['Нядзеля', 'Панядзелак', 'Аўторак', 'Серада', 'Чацвер', 'Пятніца', 'Субота'];
-
+const MONTH_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const MONTH_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const MONTH_BE = ['Студзень', 'Люты', 'Сакавік', 'Красавік', 'Май', 'Чэрвень', 'Ліпень', 'Жнівень', 'Верасень', 'Кастрычнік', 'Лістапад', 'Снежань'];
 
 const { createElement } = require('./createElement');
 const { translate } = require('./translate');
+
+function inputTranslate(City) {
+  return (language) => {
+    const placeholderElem = document.querySelector('.searchcityinput');
+    const valueElem = document.querySelector('.searchcityclick');
+    if (language === 'ru') {
+      placeholderElem.placeholder = 'Город поиск';
+      valueElem.value = 'ПОИСК';
+    } else if (language === 'be') {
+      placeholderElem.placeholder = 'Горад пошук';
+      valueElem.value = 'ПОШУК';
+    } else {
+      placeholderElem.placeholder = City.placeholderInput;
+      valueElem.value = City.valueInput;
+    }
+  };
+}
+
+function cityTranslate(City) {
+  const city = createElement('span', {
+    innerText: `${City.city || City.state || City.formatted},`,
+  });
+  const country = createElement('span', {
+    innerText: ` ${City.country || City.county}`,
+  });
+  return (language) => {
+    if (language === 'ru' || language === 'be') {
+      translate(language, city.textContent).then((value) => {
+        city.innerText = value;
+      });
+      translate(language, country.textContent).then((value) => {
+        country.innerText = value;
+      });
+    } else {
+      city.innerText = `${City.city || City.state || City.formatted},`;
+      country.innerText = ` ${City.country || City.county}`;
+    }
+    return [city, country];
+  };
+}
+
+function showTimeDate(today) {
+  const spanDate = createElement('span');
+  const spanTime = createElement('span', {
+    classList: ['current-time'],
+    innerText: `${String(today).substring(16, 21)}`,
+  });
+  return (language) => {
+    let day;
+    const date = String(today).substring(8, 10);
+    let month;
+    if (language === 'ru') {
+      day = DAYWEEK_RU[today.getDay()];
+      month = MONTH_RU[today.getMonth()];
+    } else if (language === 'be') {
+      day = DAYWEEK_BE[today.getDay()];
+      month = MONTH_BE[today.getMonth()];
+    } else {
+      day = DAYWEEK_EN[today.getDay()];
+      month = MONTH_EN[today.getMonth()];
+    }
+    spanDate.innerText = `${day} ${date} ${month}`;
+    return [spanDate, spanTime];
+  };
+}
 
 function showToday(result, measure) {
   const summary = createElement('span', { classList: ['today__summary'] });
@@ -72,7 +139,29 @@ function showTothreedays(result, iweather) {
   };
 }
 
+function mapTranslate(lat, lon) {
+  const latitude = createElement('span', { classList: ['latitude'] });
+  const longitude = createElement('span', { classList: ['longitude'] });
+  return (language) => {
+    if (language === 'ru') {
+      latitude.textContent = `Широта: ${lat}`;
+      longitude.textContent = `Долгота: ${lon}`;
+    } else if (language === 'be') {
+      latitude.textContent = `Шырата: ${lat}`;
+      longitude.textContent = `Даўгата: ${lon}`;
+    } else {
+      latitude.textContent = `Latitude: ${lat}`;
+      longitude.textContent = `Longitude: ${lon}`;
+    }
+    return [latitude, longitude];
+  };
+}
+
 module.exports = {
+  inputTranslate,
+  cityTranslate,
   showToday,
   showTothreedays,
+  showTimeDate,
+  mapTranslate,
 };

@@ -9,6 +9,15 @@ function storageGet(value) {
   return localStorage.getItem(value);
 }
 
+function storageSet(value, data) {
+  if (value === 'language') {
+    localStorage.setItem(value, data);
+  }
+  if (value === 'temp') {
+    localStorage.setItem(value, data);
+  }
+}
+
 function currentDegree() {
   if (storageGet('temp') === 'imperial') {
     document.querySelector('.degreeF').classList.add('degree_active');
@@ -29,6 +38,7 @@ function currentLanguage() {
 
 module.exports = {
   storageGet,
+  storageSet,
   currentDegree,
   currentLanguage,
 };

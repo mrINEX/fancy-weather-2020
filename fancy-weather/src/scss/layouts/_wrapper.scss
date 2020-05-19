@@ -16,17 +16,19 @@
     color: white;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 .content {
     margin: 10px;
-    background: rgba(7, 7, 7, 0.533);
+    background: rgba(7, 7, 7, 0.633);
     padding: 10px;
+    width: 100%;
 }
 
 .weather-image {
     position: absolute;
     z-index: -1;
-    top: -25%;
     width: 100%;
 }

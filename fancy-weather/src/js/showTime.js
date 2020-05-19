@@ -1,10 +1,13 @@
 const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+const { showTimeDate } = require('./weatherLanguage');
+
 function showTime(node) {
   const today = new Date(node.timeZone);
   const City = node;
 
+  City.dateTime = showTimeDate(today);
   City.day = DAYWEEK_EN[today.getDay()];
   City.date = String(today).substring(8, 10);
   City.month = MONTH[today.getMonth()];
