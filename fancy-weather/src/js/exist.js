@@ -6,9 +6,8 @@ function exist(value) {
 }
 
 function error() {
-  const div = document.createElement('div');
-  div.innerText = 'NO result:';
-  document.querySelector('.searchcityinput').before(div);
+  const strong = 'NO result: ';
+  document.querySelector('.searchcityinput').value = `${strong}${document.querySelector('.searchcityinput').value}`;
 }
 
 module.exports = {

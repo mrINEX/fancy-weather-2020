@@ -1,7 +1,7 @@
 const URL_API = 'https://api.opencagedata.com/';
 const KEY = '12ff4fe1ac804a4689043079fcfc5b48';
 
-const { mapTranslate, cityTranslate, inputTranslate } = require('./translater');
+const { mapTranslate, cityTranslate, inputTranslate } = require('./translate-creator');
 const { City } = require('./City');
 
 function getCountry(city) {

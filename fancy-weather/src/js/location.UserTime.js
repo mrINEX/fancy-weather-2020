@@ -1,7 +1,7 @@
 const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const { showTimeDate } = require('./translater');
+const { showTimeDate } = require('./translate-creator');
 
 function getTime(node) {
   const today = new Date(node.timeZone);

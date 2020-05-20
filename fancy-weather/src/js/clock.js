@@ -1,8 +1,9 @@
 function clock() {
-  const secondsSpan = document.querySelector('.current-time').children[2];
+  const hhmmss = document.querySelector('.current-time').children;
+  const secondsSpan = hhmmss[2];
+  const minutesSpan = hhmmss[1];
+  const hourseSpan = hhmmss[0];
   if ((Number(secondsSpan.textContent) + 1) % 60 === 0) {
-    const minutesSpan = document.querySelector('.current-time').children[1];
-    const hourseSpan = document.querySelector('.current-time').children[0];
     if ((Number(minutesSpan.textContent) + 1) % 60 < 10) {
       minutesSpan.textContent = `0${(Number(minutesSpan.textContent) + 1) % 60}`;
     } else {
@@ -15,7 +16,8 @@ function clock() {
         hourseSpan.textContent = (Number(hourseSpan.textContent) + 1) % 24;
       }
       if ((Number(hourseSpan.textContent)) % 24 === 0) {
-        console.log('next day !!!');
+        window.location.reload();
+        // window.onload('next');
       }
     }
   }

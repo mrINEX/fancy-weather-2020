@@ -3,7 +3,7 @@ const URL_API_OPENWEATHER = 'https://api.openweathermap.org/';
 const URL_API_ICON = 'http://openweathermap.org/';
 
 const { setBackgroundImage } = require('./location.UserBackground');
-const { showToday, showTothreedays } = require('./translater');
+const { showToday, showTothreedays } = require('./translate-creator');
 
 // imperial [F] metric [C] mph [F] m/s [C]
 function getWeather(node, measure) {

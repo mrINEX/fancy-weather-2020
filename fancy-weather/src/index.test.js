@@ -23,31 +23,31 @@ describe('tests', () => {
   it('should return true translate:', () => {
     const answer = word.translate('ru', 'node');
     answer.then((data) => {
-        expect(data).toEqual('узел');
-    })
+      expect(data).toEqual('узел');
+    });
   });
   it('should return string:', () => {
     const answer = word.translate('ru', 'node');
     answer.then((data) => {
-        expect(data).toBeInstanceOf(String);
-    })
+      expect(data).toBeInstanceOf(String);
+    });
   });
   it('should return true length:', () => {
     const answer = word.translate('ru', 'node');
     answer.then((data) => {
-        expect(data.length).toEqual(4);
-    })
+      expect(data.length).toEqual(4);
+    });
   });
   it('should return true string:', () => {
     const answer = word.translate('ru', 'node');
     answer.then((data) => {
-        expect(data.includes('узел')).toBeTruthy();
-    })
+      expect(data.includes('узел')).toBeTruthy();
+    });
   });
   it('should return false string:', () => {
     const answer = word.translate('ru', 'node');
     answer.then((data) => {
-        expect(data.includes('узеtyл')).toBeFalsy();
-    })
+      expect(data.includes('узеtyл')).toBeFalsy();
+    });
   });
 });

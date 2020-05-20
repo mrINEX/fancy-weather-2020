@@ -1,6 +1,25 @@
 .main-weather {
     display: flex;
     justify-content: space-between;
+    @include media-tablet() {
+        flex-direction: column;
+    }
+    @include media-mobiles-big() {
+        flex-direction: column;
+    }
+    @include media-mobiles-small() {
+        flex-direction: column;
+    }
+}
+
+.wrapperForWeather {
+    display: flex;
+    flex-direction: column;
+}
+
+.today {
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .today__city {
@@ -14,23 +33,71 @@
     display: flex;
     .current-time {
         padding: 0 30px;
+        align-self: center;
+    }
+    @include media-mobiles-big() {
+        flex-direction: column;
+    }
+    @include media-mobiles-small() {
+        flex-direction: column;
     }
 }
 
 .today__weather {
-    display: inline-flex;
+    display: flex;
     position: relative;
+    @include media-tablet() {
+        justify-content: space-around;
+    }
+    @include media-mobiles-big() {
+        flex-direction: column;
+    }
+    @include media-mobiles-small() {
+        flex-direction: column;
+    }
 }
 
 .today__temp {
     font-size: 170px;
     display: block;
+    @include media-tablet() {
+        position: relative;
+        z-index: 4;
+    }
+    @include media-mobiles-big() {
+        position: relative;
+        z-index: 4;
+    }
+    @include media-mobiles-small() {
+        position: relative;
+        z-index: 4;
+        font-size: 100px;
+    }
 }
 
 .today__image {
-    height: 100%;
+    height: 140px;
+    width: 140px;
     background-color:#ffffff61;
     border-radius: 30%;
+    @include media-tablet() {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        top: -50px;
+    }
+    @include media-mobiles-big() {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        top: -50px;
+    }
+    @include media-mobiles-small() {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        top: -50px;
+    }
 }
 
 .today__description {
@@ -38,12 +105,31 @@
     flex-direction: column;
     justify-content: center;
     text-shadow: black 0 0 3px;
+    white-space: nowrap;
     padding: 15px;
+    align-self: center;
 }
 
 .tothreedays {
-    display: flex;
+    display: inline-flex;
     justify-content: space-between;
+    @include media-tablet() {
+        justify-content: space-around;
+    }
+    @include media-mobiles-big() {
+        flex-direction: column;
+        margin: auto;
+        > * {
+            padding: 10px;
+        }
+    }
+    @include media-mobiles-small() {
+        flex-direction: column;
+        margin: auto;
+        > * {
+            padding: 10px;
+        }
+    }
 }
 
 .tothreedays-tomorrow {
@@ -52,7 +138,7 @@
 }
 
 .today__description {
-    font-size: larger;
+    font-size: 25px;
 }
 
 .tomorrow-image {
@@ -63,7 +149,7 @@
 .tomorrow-day {
     text-shadow: black 0 0 3px;
     position: absolute;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .tomorrow-temp {
