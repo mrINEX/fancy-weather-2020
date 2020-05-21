@@ -7,9 +7,6 @@
     @include media-mobiles-big() {
         max-width: 414px;
     }
-    @include media-mobiles-small() {
-        width: initial;
-    }
 }
 
 .weather {
@@ -36,11 +33,16 @@
         height: 100%;
         width: initial;
     }
-    @include media-mobiles-big() {
-        height: 100%;
-        width: initial;
+}
+
+.weather-image-height {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    @include media-tablet() {
+        width: 100%;
     }
-    @include media-mobiles-small() {
+    @include media-mobiles-big() {
         height: 100%;
         width: initial;
     }

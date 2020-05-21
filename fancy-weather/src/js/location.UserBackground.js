@@ -8,9 +8,14 @@ function setBackgroundImage(monthtime, weather, city) {
     .then((response) => response.json())
     .then((result) => {
       exist('.weather-image');
+      exist('.weather-image-height');
       const img = document.createElement('img');
+      if (result.width > result.height) {
+        img.setAttribute('class', 'weather-image');
+      } else {
+        img.setAttribute('class', 'weather-image-height');
+      }
       img.setAttribute('src', `${result.urls.regular}`);
-      img.setAttribute('class', 'weather-image');
       document.querySelector('.wrapper').append(img);
     });
 }

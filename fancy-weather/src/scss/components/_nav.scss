@@ -4,9 +4,6 @@
     @include media-mobiles-big() {
         flex-direction: column;
     }
-    @include media-mobiles-small() {
-        flex-direction: column;
-    }
 }
 
 .nav-left {
@@ -16,18 +13,11 @@
     @include media-mobiles-big() {
         width: 374px;
     }
-    @include media-mobiles-small() {
-        width: 280px;
-    }
 }
 
 .nav-right {
     display: inline-flex;
     @include media-mobiles-big() {
-        width: 280px;
-        padding-top: 10px;
-    }
-    @include media-mobiles-small() {
         width: 280px;
         padding-top: 10px;
     }
@@ -124,13 +114,7 @@
     background: rgba(128, 128, 128, 0);
     border: 0;
     padding-left: 4px;
-    width: 280px;
-    @include media-mobiles-big() {
-        width: 279px;
-    }
-    @include media-mobiles-small() {
-        width: 184px;
-    }
+    width: 285px;
     &::placeholder {
         font-family: Montserrat;
         color: white;

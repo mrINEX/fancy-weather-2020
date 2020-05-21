@@ -72,6 +72,7 @@ window.onload = (day) => {
 
   document.querySelector('.refresh').addEventListener('click', () => {
     exist('.weather-image');
+    exist('.weather-image-height');
     const city = currentCity.city || currentCity.state || currentCity.country;
     currentCity.infoBackground(currentCity.timeOfDay, currentCity.weatherMain, city);
   });
