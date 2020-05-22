@@ -5,6 +5,7 @@ const { mapTranslate, cityTranslate, inputTranslate } = require('./translate-cre
 const { City } = require('./City');
 
 function getCountry(city) {
+  document.querySelector('.loader').classList.remove('hidden');
   const url = `${URL_API}geocode/v1/json?q=${city}&key=${KEY}&pretty=1&no_annotations=1&language=en`;
   return fetch(url)
     .then((response) => response.json())

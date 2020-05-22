@@ -8,7 +8,9 @@ function addInfo(city, language, stopInterval) {
   city.infoWeatherToday(language);
   city.infoWeatherTothreedays(language);
   city.infoMap(language);
-  city.infoBackground(city.timeOfDay, city.weatherMain, city.city || city.state || city.country);
+
+  const town = city.city || city.town || city.state || city.country;
+  city.infoBackground(city.timeOfDay, city.weatherMain, town);
   return setInterval(clock, 1000);
 }
 

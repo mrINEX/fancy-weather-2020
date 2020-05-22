@@ -1,9 +1,15 @@
 const { createElement } = require('./createElement');
 
-const background = createElement('div', { classList: ['weather', 'wrapper'] });
+const background = createElement('div', {
+  classList: ['weather', 'wrapper'],
+});
 const wrapper = createElement('div', { classList: ['content'] });
+const imageDefault = createElement('img', {
+  classList: ['weather-default'],
+  src: './src/assets/img/weather-default.jpg',
+});
 const loader = createElement('div', {
-  classList: ['loader', 'hidden'],
+  classList: ['loader'],
 });
 const nav = createElement('nav', { classList: ['nav'] });
 const navLeft = createElement('div', { classList: ['nav-left'] });
@@ -44,7 +50,7 @@ const mainWeather = createElement('div', { classList: ['main-weather'] });
 const wrapperForWeather = createElement('main', { classList: ['wrapperForWeather'] });
 const today = createElement('div', { classList: ['today'] });
 
-background.append(wrapper);
+background.append(wrapper, imageDefault, loader);
 wrapper.append(nav);
 wrapper.append(mainWeather);
 mainWeather.append(wrapperForWeather);
@@ -67,4 +73,4 @@ buttonSearch.append(inputSearch);
 buttonSearch.append(imgVoice);
 buttonSearch.append(inputSubmit);
 
-document.querySelector('body').append(background, loader);
+document.querySelector('body').append(background);

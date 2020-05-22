@@ -10,6 +10,7 @@ class City {
     this.county = components.county;
     this.country = components.country;
     this.state = components.state;
+    this.town = components.town;
 
     this.map = url;
     this.latitude = geometry.lat;

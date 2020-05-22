@@ -64,6 +64,7 @@
     padding: 0 15px;
     cursor: pointer;
     border: 0;
+    font-size: initial;
 }
 
 .language:hover {
@@ -114,10 +115,14 @@
     background: rgba(128, 128, 128, 0);
     border: 0;
     padding-left: 4px;
-    width: 285px;
+    width: 300px;
+    font-size: initial;
     &::placeholder {
         font-family: Montserrat;
         color: white;
+    }
+    @include media-mobiles-big() {
+        width: 266px;
     }
 }
 
@@ -136,6 +141,7 @@
     border: 0;
     background: linear-gradient(to top, #f8f3fba1, #f5f4f0cc);
     cursor: pointer;
+    font-size: initial;
     &:hover {
         animation: 1s infinite alternate colorChange;
     }

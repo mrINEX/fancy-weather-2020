@@ -26,11 +26,11 @@ function getTime(node) {
     City.timeOfYear = 'autumn';
   }
 
-  if (City.time.slice(0, -3) <= 6) {
+  if (today.getHours() <= 6) {
     City.timeOfDay = 'night';
-  } else if (City.time.slice(0, -3) > 6 && City.time.slice(0, -3) <= 12) {
+  } else if (today.getHours() > 6 && today.getHours() <= 12) {
     City.timeOfDay = 'morning';
-  } else if (City.time.slice(0, -3) > 12 && City.time.slice(0, -3) <= 18) {
+  } else if (today.getHours() > 12 && today.getHours() <= 18) {
     City.timeOfDay = 'afternoon';
   } else {
     City.timeOfDay = 'evening';

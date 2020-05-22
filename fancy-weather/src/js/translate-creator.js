@@ -27,7 +27,7 @@ function inputTranslate(City) {
 
 function cityTranslate(City) {
   const city = createElement('span', {
-    innerText: `${City.city || City.state || City.formatted},`,
+    innerText: `${City.city || City.town || City.state || City.formatted},`,
   });
   const country = createElement('span', {
     innerText: ` ${City.country || City.county}`,
@@ -41,7 +41,7 @@ function cityTranslate(City) {
         country.innerText = value;
       });
     } else {
-      city.innerText = `${City.city || City.state || City.formatted},`;
+      city.innerText = `${City.city || City.town || City.state || City.formatted},`;
       country.innerText = ` ${City.country || City.county}`;
     }
     return [city, country];

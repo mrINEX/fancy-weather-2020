@@ -11,7 +11,7 @@ const { getTime } = require('./js/location.UserTime');
 const { addInfo } = require('./js/addInfo');
 const { exist, error } = require('./js/exist');
 
-window.onload = (day) => {
+window.onload = () => {
   let currentCity;
   let stopInterval;
   let degree = currentDegree(); // *imperial:[F]* or *metric:[C]*
@@ -73,7 +73,7 @@ window.onload = (day) => {
   document.querySelector('.refresh').addEventListener('click', () => {
     exist('.weather-image');
     exist('.weather-image-height');
-    const city = currentCity.city || currentCity.state || currentCity.country;
+    const city = currentCity.city || currentCity.town || currentCity.state || currentCity.country;
     currentCity.infoBackground(currentCity.timeOfDay, currentCity.weatherMain, city);
   });
 

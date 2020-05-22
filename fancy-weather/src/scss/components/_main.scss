@@ -62,6 +62,10 @@
     width: 140px;
     background-color:#ffffff61;
     border-radius: 30%;
+    @include media-tablet() {
+        position: absolute;
+        z-index: 5;
+    }
     @include media-mobiles-big() {
         position: absolute;
         right: 0;
@@ -102,6 +106,8 @@
 
 .today__description {
     font-size: 25px;
+    position: relative;
+    z-index: 6;
 }
 
 .tomorrow-image {

@@ -2,7 +2,7 @@ const APPID = 'c6b65e868774bd345d33ca46c70b7a17';
 const URL_API_OPENWEATHER = 'https://api.openweathermap.org/';
 const URL_API_ICON = 'http://openweathermap.org/';
 
-const { setBackgroundImage } = require('./location.UserBackground');
+const { setBackgroundImage } = require('./api.location.UserBackground');
 const { showToday, showTothreedays } = require('./translate-creator');
 
 // imperial [F] metric [C] mph [F] m/s [C]
@@ -12,7 +12,7 @@ function getWeather(node, measure) {
   return fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      City.weatherMain = result.list[0].weather[0].main;
+      City.weatherMain = result.list[0].weather[0].description;
       City.todayWeatherTemp = `${Math.round(result.list[0].main.temp)}°`;
       City.todayWeatherIcon = `${URL_API_ICON}img/wn/${result.list[0].weather[0].icon}@2x.png`;
       City.todayWeatherDescription = showToday(result, measure);
