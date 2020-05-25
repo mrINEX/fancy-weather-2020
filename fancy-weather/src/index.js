@@ -1,15 +1,15 @@
-require('./js/create');
-const { location } = require('./js/api.locationUser');
-const { getCountry } = require('./js/api.locationUserCountry');
-const { getZone } = require('./js/api.locationTimeZone');
-const { getWeather } = require('./js/api.locationUserWeather');
-const { getMap } = require('./js/api.locationUserMap');
+import './js/create';
+import location from './js/api.locationUser';
+import getCountry from './js/api.locationUserCountry';
+import getZone from './js/api.locationTimeZone';
+import getWeather from './js/api.locationUserWeather';
+import getMap from './js/api.locationUserMap';
 
-const { currentDegree, currentLanguage, storageSet } = require('./js/localStorage');
-const { speechInput } = require('./js/SpeechRecognition');
-const { getTime } = require('./js/location.UserTime');
-const { addInfo } = require('./js/addInfo');
-const { exist, error } = require('./js/exist');
+import { currentDegree, currentLanguage, storageSet } from './js/localStorage';
+import speechInput from './js/SpeechRecognition';
+import getTime from './js/location.UserTime';
+import addInfo from './js/addInfo';
+import { exist, error } from './js/exist';
 
 window.onload = () => {
   let currentCity;
@@ -74,7 +74,7 @@ window.onload = () => {
     exist('.weather-image');
     exist('.weather-image-height');
     const city = currentCity.city || currentCity.town || currentCity.state || currentCity.country;
-    currentCity.infoBackground(currentCity.timeOfDay, currentCity.weatherMain, city);
+    currentCity.infoBackground(currentCity.timeOfDay, currentCity.timeOfYear, city);
   });
 
   document.querySelector('.degrees').addEventListener('click', ({ target }) => {

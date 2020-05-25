@@ -1,7 +1,7 @@
-const { createElement } = require('./createElement');
-const { exist } = require('./exist');
+import createElement from './createElement';
+import { exist } from './exist';
 
-class City {
+export default class City {
   constructor({
     geometry, formatted, components, url,
   }) {
@@ -71,7 +71,3 @@ class City {
     document.querySelector('.main-weather').append(geodata);
   }
 }
-
-module.exports = {
-  City,
-};

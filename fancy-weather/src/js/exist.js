@@ -10,7 +10,7 @@ function error() {
   document.querySelector('.searchcityinput').value = `${strong}${document.querySelector('.searchcityinput').value}`;
 }
 
-module.exports = {
+export {
   exist,
   error,
 };

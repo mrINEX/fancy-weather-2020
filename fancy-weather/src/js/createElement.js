@@ -1,4 +1,4 @@
-const createElement = (type, attributes = {}, styles = {}) => {
+export default function createElement(type, attributes = {}, styles = {}) {
   const element = document.createElement(type);
   Object.keys(attributes).forEach((key) => {
     if (key === 'classList') {
@@ -13,8 +13,4 @@ const createElement = (type, attributes = {}, styles = {}) => {
     element.style[key] = styles[key];
   });
   return element;
-};
-
-module.exports = {
-  createElement,
-};
+}

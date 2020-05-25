@@ -1,4 +1,4 @@
-function speechInput(language) {
+export default function speechInput(language) {
   window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
   const recognition = new window.SpeechRecognition();
   recognition.interimResults = true;
@@ -11,7 +11,3 @@ function speechInput(language) {
   recognition.start();
   return recognition;
 }
-
-module.exports = {
-  speechInput,
-};

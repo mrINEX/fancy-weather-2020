@@ -1,12 +1,12 @@
+import setBackgroundImage from './api.location.UserBackground';
+import { showToday, showTothreedays } from './translate-creator';
+
 const APPID = 'c6b65e868774bd345d33ca46c70b7a17';
 const URL_API_OPENWEATHER = 'https://api.openweathermap.org/';
 const URL_API_ICON = 'http://openweathermap.org/';
 
-const { setBackgroundImage } = require('./api.location.UserBackground');
-const { showToday, showTothreedays } = require('./translate-creator');
-
 // imperial [F] metric [C] mph [F] m/s [C]
-function getWeather(node, measure) {
+export default function getWeather(node, measure) {
   const City = node;
   const url = `${URL_API_OPENWEATHER}data/2.5/forecast?lat=${City.latitude}&lon=${City.longitude}&lang=en&units=${measure}&APPID=${APPID}`;
   return fetch(url)
@@ -23,7 +23,3 @@ function getWeather(node, measure) {
       return City;
     });
 }
-
-module.exports = {
-  getWeather,
-};

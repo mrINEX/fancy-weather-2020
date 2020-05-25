@@ -1,11 +1,11 @@
-const { createElement } = require('./createElement');
+import createElement from './createElement';
 
 const background = createElement('div', {
   classList: ['weather', 'wrapper'],
 });
 const wrapper = createElement('div', { classList: ['content'] });
 const imageDefault = createElement('img', {
-  classList: ['weather-default'],
+  classList: ['weather-default', 'hidden'],
   src: './src/assets/img/weather-default.jpg',
 });
 const loader = createElement('div', {

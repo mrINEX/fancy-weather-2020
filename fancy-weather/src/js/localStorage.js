@@ -36,7 +36,7 @@ function currentLanguage() {
   return lang;
 }
 
-module.exports = {
+export {
   storageGet,
   storageSet,
   currentDegree,

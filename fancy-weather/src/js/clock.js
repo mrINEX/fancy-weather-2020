@@ -1,4 +1,4 @@
-function clock() {
+export default function clock() {
   const hhmmss = document.querySelector('.current-time').children;
   const secondsSpan = hhmmss[2];
   const minutesSpan = hhmmss[1];
@@ -17,7 +17,6 @@ function clock() {
       }
       if ((Number(hourseSpan.textContent)) % 24 === 0) {
         window.location.reload();
-        // window.onload('next');
       }
     }
   }
@@ -27,7 +26,3 @@ function clock() {
     secondsSpan.textContent = (Number(secondsSpan.textContent) + 1) % 60;
   }
 }
-
-module.exports = {
-  clock,
-};

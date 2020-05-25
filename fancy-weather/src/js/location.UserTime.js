@@ -1,9 +1,9 @@
+import { showTimeDate } from './translate-creator';
+
 const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const { showTimeDate } = require('./translate-creator');
-
-function getTime(node) {
+export default function getTime(node) {
   const today = new Date(node.timeZone);
   const City = node;
 
@@ -38,7 +38,3 @@ function getTime(node) {
 
   return City;
 }
-
-module.exports = {
-  getTime,
-};

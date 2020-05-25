@@ -1,6 +1,6 @@
-const { clock } = require('./clock');
+import clock from './clock';
 
-function addInfo(city, language, stopInterval) {
+export default function addInfo(city, language, stopInterval) {
   clearInterval(stopInterval);
   city.translateInput(language);
   city.infoCity(language);
@@ -10,10 +10,6 @@ function addInfo(city, language, stopInterval) {
   city.infoMap(language);
 
   const town = city.city || city.town || city.state || city.country;
-  city.infoBackground(city.timeOfDay, city.weatherMain, town);
+  city.infoBackground(city.timeOfDay, city.timeOfYear, town);
   return setInterval(clock, 1000);
 }
-
-module.exports = {
-  addInfo,
-};
