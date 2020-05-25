@@ -42,3 +42,7 @@ body {
 .weather-opacity-full {
     opacity: 1;
 }
+
+.wave {
+    animation: 0.5s infinite alternate opacity;          
+}

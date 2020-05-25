@@ -14,11 +14,34 @@
 .today {
     display: inline-flex;
     flex-direction: column;
+    position: relative;
 }
 
 .today__city {
     font-size: 32px;
     padding: 20px 0 5px 0;
+}
+
+.today__volume {
+    position: absolute;
+    right: 40px;
+    top: 5px;
+}
+
+.today__speak {
+    background: url('../assets/img/collect-google.png');
+    width: 40px;
+    height: 31px;
+    position: absolute;
+    right: 0;
+    background-position-x: center;
+    background-position-y: 31px;
+    background-size: 33px;
+    top: 0;
+    cursor: pointer;
+    &:hover {
+        animation: 0.5s infinite alternate opacity;
+    }
 }
 
 .today__date-time {

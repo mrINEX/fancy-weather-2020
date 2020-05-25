@@ -9,20 +9,21 @@ import { currentDegree, currentLanguage, storageSet } from './js/localStorage';
 import speechInput from './js/SpeechRecognition';
 import getTime from './js/location.UserTime';
 import addInfo from './js/addInfo';
-import { exist, error } from './js/exist';
+import { exist, error, say } from './js/exist';
 
 window.onload = () => {
   let currentCity;
   let stopInterval;
+  let recognition;
   let degree = currentDegree(); // *imperial:[F]* or *metric:[C]*
   let language = currentLanguage(); // *en* or *ru* or *be*
   location().then((city) => { // start with city
     getCountry(city).then((country) => {
       getMap(country).then((map) => {
         getZone(map).then((zone) => {
-          getWeather(getTime(zone), degree).then((weather) => {
-            stopInterval = addInfo(weather, language, stopInterval);
-            currentCity = weather;
+          getWeather(getTime(zone), degree).then((City) => {
+            stopInterval = addInfo(City, language, stopInterval);
+            currentCity = City;
           });
         });
       });
@@ -33,9 +34,9 @@ window.onload = () => {
     getCountry(target.value).then((country) => {
       getMap(country).then((map) => {
         getZone(map).then((zone) => {
-          getWeather(getTime(zone), degree).then((weather) => {
-            stopInterval = addInfo(weather, language, stopInterval);
-            currentCity = weather;
+          getWeather(getTime(zone), degree).then((City) => {
+            stopInterval = addInfo(City, language, stopInterval);
+            currentCity = City;
           });
         });
       });
@@ -43,20 +44,36 @@ window.onload = () => {
   });
 
   document.querySelector('.imgVoice').addEventListener('click', () => {
-    const recognition = speechInput(language);
-    recognition.onend = () => {
-      const result = document.querySelector('.searchcityinput').value;
-      getCountry(result).then((country) => {
-        getMap(country).then((map) => {
-          getZone(map).then((zone) => {
-            getWeather(getTime(zone), degree).then((weather) => {
-              stopInterval = addInfo(weather, language, stopInterval);
-              currentCity = weather;
+    if (recognition) {
+      document.querySelector('.imgVoice').classList.remove('wave');
+      recognition.stop();
+      recognition.onend = null;
+      recognition = null;
+    } else {
+      document.querySelector('.imgVoice').classList.add('wave');
+      recognition = speechInput(language);
+      recognition.onend = () => {
+        const result = document.querySelector('.searchcityinput').value;
+        if (/speak weather/.test(result)) {
+          say();
+        } else if (/volume weather/.test(result)) {
+          say(result.match(/[0-9]+/));
+        } else {
+          getCountry(result).then((country) => {
+            getMap(country).then((map) => {
+              getZone(map).then((zone) => {
+                getWeather(getTime(zone), degree).then((City) => {
+                  stopInterval = addInfo(City, language, stopInterval);
+                  currentCity = City;
+                });
+              });
             });
-          });
-        });
-      }).catch(error);
-    };
+          }).catch(error);
+        }
+        recognition = null;
+        document.querySelector('.imgVoice').classList.remove('wave');
+      };
+    }
   });
 
   document.querySelector('.language').addEventListener('change', ({ target }) => {

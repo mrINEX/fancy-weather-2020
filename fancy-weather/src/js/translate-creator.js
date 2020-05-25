@@ -52,7 +52,7 @@ function showTimeDate(today) {
   const hh = String(today).substring(16, 18);
   const mm = String(today).substring(19, 21);
   const ss = String(today).substring(22, 24);
-  const spanDate = createElement('span');
+  const spanDate = createElement('span', { classList: ['current-date'] });
   const spanTime = createElement('span', {
     classList: ['current-time'],
     innerHTML: `<span>${hh}</span>:<span>${mm}</span>:<span>${ss}</span>`,

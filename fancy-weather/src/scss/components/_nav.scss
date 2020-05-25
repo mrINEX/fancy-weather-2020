@@ -10,9 +10,22 @@
     display: inline-flex;
     width: 280px;
     justify-content: space-between;
+    @include media-tablet() {
+        width: 206px;
+    }
     @include media-mobiles-big() {
         width: 374px;
     }
+}
+
+.error-message {
+    color: white;
+    display: flex;
+    align-items: center;
+    background: #ff00009e;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 7px;
 }
 
 .nav-right {

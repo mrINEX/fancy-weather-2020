@@ -1,5 +1,5 @@
 import createElement from './createElement';
-import { exist } from './exist';
+import { exist, say } from './exist';
 
 export default class City {
   constructor({
@@ -21,6 +21,8 @@ export default class City {
     exist('.today__city');
     const todayCity = createElement('div', { classList: ['today__city'] });
     this.transtaleCity(language).forEach((element) => todayCity.append(element));
+    // const todaySpeak = createElement('div', { classList: ['today__speak'] });
+    // todaySpeak.onclick = say;
     document.querySelector('.today').append(todayCity);
   }
 
@@ -45,7 +47,15 @@ export default class City {
     const description = createElement('div', { classList: ['today__description'] });
     this.todayWeatherDescription(language).forEach((element) => description.append(element));
     todayWeather.append(temp, image, description);
-    document.querySelector('.today').append(todayWeather);
+    exist('.today__speak');
+    exist('.today__volume');
+    const todaySpeak = createElement('div', { classList: ['today__speak'] });
+    const todayKey = createElement('span', {
+      classList: ['today__volume'],
+      innerText: '50%',
+    });
+    todaySpeak.onclick = say;
+    document.querySelector('.today').append(todayWeather, todayKey, todaySpeak);
   }
 
   infoWeatherTothreedays(language) {

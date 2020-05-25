@@ -1,6 +1,9 @@
 import clock from './clock';
+import { exist } from './exist';
 
 export default function addInfo(city, language, stopInterval) {
+  exist('.error-message');
+
   clearInterval(stopInterval);
   city.translateInput(language);
   city.infoCity(language);

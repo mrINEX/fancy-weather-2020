@@ -7,7 +7,7 @@ export default function setBackgroundImage(monthtime, weather, city) {
   document.querySelector('.loader').classList.remove('hidden');
   document.querySelector('.weather-default').classList.add('hidden');
   const url = `${URL_API}photos/random?query=${monthtime},${weather},${city}&client_id=${CLIENT_ID}`;
-  console.log(`query=${monthtime},${weather},${city}`);
+  console.log(`query=${monthtime},${weather},${city} || key: "speak weather" || key volume = "volume weather 'number 1-9'"`);
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
