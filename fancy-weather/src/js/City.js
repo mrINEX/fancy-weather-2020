@@ -1,6 +1,7 @@
 import createElement from './createElement';
 import { exist, say } from './exist';
 import { storageGet } from './localStorage';
+import translate from './translate';
 
 export default class City {
   constructor({
@@ -56,8 +57,15 @@ export default class City {
     });
     const todayNews = createElement('button', {
       classList: ['today__news'],
-      innerText: 'news',
     });
+    translate(language, 'news').then((data) => {
+      todayNews.innerText = data;
+    });
+    this.translateNews = (lang) => {
+      translate(lang, 'news').then((data) => {
+        todayNews.innerText = data;
+      });
+    };
     todayNews.onclick = () => {
       document.querySelector('.weather').classList.add('event-none');
       this.infoNews(storageGet('language'));
@@ -95,7 +103,7 @@ export default class City {
     const newsBlock = createElement('div', { classList: ['news__block'] });
     const close = createElement('button', {
       classList: ['news__close'],
-      innerText: 'return',
+      innerText: 'x',
     });
     close.onclick = () => {
       document.querySelector('.weather').classList.remove('event-none');

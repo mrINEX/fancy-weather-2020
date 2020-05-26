@@ -89,6 +89,7 @@ window.onload = () => {
     language = currentLanguage();
     currentCity.translateInput(language);
     currentCity.transtaleCity(language);
+    currentCity.translateNews(language);
     currentCity.dateTime(language);
     currentCity.todayWeatherDescription(language);
     currentCity.tothreedaysWeather.forEach((tomorrow) => tomorrow(language));
