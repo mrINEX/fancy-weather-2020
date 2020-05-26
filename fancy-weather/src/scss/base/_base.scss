@@ -5,15 +5,20 @@
 
 html {
     font-size: 10px;
+    // height: 100%; // new
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
     @include font($size: 1.6rem, $weight: normal);
+    // height: 100%; // new
+    // overflow: hidden;
+    // display: flex;
 }
 
 .event-none {
     pointer-events: none;
+    opacity: .4;
 }
 
 .hidden {

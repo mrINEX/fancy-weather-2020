@@ -22,25 +22,29 @@ function error() {
 
 let volume = 0.5;
 function say(vol) {
-  let text = '';
-  const temp = document.querySelector('.today__temp');
-  if (temp) { text += `${temp.textContent} `; }
-  const weather = document.querySelector('.today__description');
-  if (weather) {
-    [...weather.children].forEach((n) => {
-      text += `${n.textContent.replace(':', '')}, `;
-    });
-  }
-  const msg = new SpeechSynthesisUtterance(text);
-  if (/[0-9]+/.test(vol)) {
-    if (vol < 1) { volume = 0.1; }
-    if (vol > 9) {
+  if (/[0-9]/.test(vol)) {
+    if (vol < 1) {
+      volume = 0.1;
+      document.querySelector('.today__volume').textContent = '1%';
+    } else if (vol > 99) {
       volume = 1;
-      document.querySelector('.today__volume').textContent = `${vol}00%`;
+      document.querySelector('.today__volume').textContent = '100%';
+    } else {
+      volume = `0.${vol}`;
+      document.querySelector('.today__volume').textContent = `${vol}%`;
     }
-    document.querySelector('.today__volume').textContent = `${vol}0%`;
-    msg.volume = `0.${vol}`;
-  } else {
+  }
+  if (vol === 'speak weather') {
+    let text = '';
+    const temp = document.querySelector('.today__temp');
+    if (temp) { text += `${temp.textContent} `; }
+    const weather = document.querySelector('.today__description');
+    if (weather) {
+      [...weather.children].forEach((n) => {
+        text += `${n.textContent.replace(':', '')}, `;
+      });
+    }
+    const msg = new SpeechSynthesisUtterance(text);
     document.querySelector('.today__speak').classList.add('wave');
     msg.volume = volume;
     msg.onerror = error;

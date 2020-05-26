@@ -1,5 +1,6 @@
 import translate from './translate';
 import createElement from './createElement';
+import { storageGet } from './localStorage';
 
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const DAYWEEK_RU = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
@@ -162,6 +163,28 @@ function mapTranslate(latInput, lonInput) {
   };
 }
 
+function newsTranslate(val) {
+  const newsWrapper = createElement('div', { classList: ['news_wrapper'] });
+  const title = createElement('h3', { classList: ['news__title'], innerText: val.title });
+  const image = createElement('img', { classList: ['news__image'], src: val.urlToImage });
+  const description = createElement('p', { classList: ['news__description'], innerText: val.description });
+  const source = createElement('a', {
+    classList: ['news__source'],
+    href: val.url,
+    innerText: val.source.name,
+  });
+  return (language) => {
+    translate(language, title.textContent).then((data) => {
+      title.textContent = data;
+    });
+    translate(language, description.textContent).then((data) => {
+      description.textContent = data;
+    });
+    newsWrapper.append(title, image, description, source);
+    return newsWrapper;
+  };
+}
+
 export {
   inputTranslate,
   cityTranslate,
@@ -169,4 +192,5 @@ export {
   showTothreedays,
   showTimeDate,
   mapTranslate,
+  newsTranslate,
 };

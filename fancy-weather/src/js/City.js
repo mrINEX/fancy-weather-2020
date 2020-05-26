@@ -1,5 +1,6 @@
 import createElement from './createElement';
 import { exist, say } from './exist';
+import { storageGet } from './localStorage';
 
 export default class City {
   constructor({
@@ -21,8 +22,6 @@ export default class City {
     exist('.today__city');
     const todayCity = createElement('div', { classList: ['today__city'] });
     this.transtaleCity(language).forEach((element) => todayCity.append(element));
-    // const todaySpeak = createElement('div', { classList: ['today__speak'] });
-    // todaySpeak.onclick = say;
     document.querySelector('.today').append(todayCity);
   }
 
@@ -49,13 +48,24 @@ export default class City {
     todayWeather.append(temp, image, description);
     exist('.today__speak');
     exist('.today__volume');
+    exist('.today__news');
     const todaySpeak = createElement('div', { classList: ['today__speak'] });
     const todayKey = createElement('span', {
       classList: ['today__volume'],
       innerText: '50%',
     });
-    todaySpeak.onclick = say;
-    document.querySelector('.today').append(todayWeather, todayKey, todaySpeak);
+    const todayNews = createElement('button', {
+      classList: ['today__news'],
+      innerText: 'news',
+    });
+    todayNews.onclick = () => {
+      document.querySelector('.weather').classList.add('event-none');
+      this.infoNews(storageGet('language'));
+    };
+    todaySpeak.onclick = () => {
+      say('speak weather');
+    };
+    document.querySelector('.today').append(todayWeather, todayNews, todayKey, todaySpeak);
   }
 
   infoWeatherTothreedays(language) {
@@ -79,5 +89,23 @@ export default class City {
     geodata.append(mapiframe);
     this.translateMap(language).forEach((element) => geodata.append(element));
     document.querySelector('.main-weather').append(geodata);
+  }
+
+  infoNews(language) {
+    const newsBlock = createElement('div', { classList: ['news__block'] });
+    const close = createElement('button', {
+      classList: ['news__close'],
+      innerText: 'return',
+    });
+    close.onclick = () => {
+      document.querySelector('.weather').classList.remove('event-none');
+      newsBlock.remove();
+    };
+    newsBlock.append(close);
+    this.news.forEach((val) => {
+      const element = val(language);
+      newsBlock.append(element);
+    });
+    document.querySelector('.weather').after(newsBlock);
   }
 }

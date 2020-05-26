@@ -4,6 +4,7 @@ import getCountry from './js/api.locationUserCountry';
 import getZone from './js/api.locationTimeZone';
 import getWeather from './js/api.locationUserWeather';
 import getMap from './js/api.locationUserMap';
+import getNews from './js/api.locationNews';
 
 import { currentDegree, currentLanguage, storageSet } from './js/localStorage';
 import speechInput from './js/SpeechRecognition';
@@ -21,9 +22,11 @@ window.onload = () => {
     getCountry(city).then((country) => {
       getMap(country).then((map) => {
         getZone(map).then((zone) => {
-          getWeather(getTime(zone), degree).then((City) => {
-            stopInterval = addInfo(City, language, stopInterval);
-            currentCity = City;
+          getWeather(getTime(zone), degree).then((weather) => {
+            getNews(weather).then((City) => {
+              stopInterval = addInfo(City, language, stopInterval);
+              currentCity = City;
+            });
           });
         });
       });
@@ -34,9 +37,11 @@ window.onload = () => {
     getCountry(target.value).then((country) => {
       getMap(country).then((map) => {
         getZone(map).then((zone) => {
-          getWeather(getTime(zone), degree).then((City) => {
-            stopInterval = addInfo(City, language, stopInterval);
-            currentCity = City;
+          getWeather(getTime(zone), degree).then((weather) => {
+            getNews(weather).then((City) => {
+              stopInterval = addInfo(City, language, stopInterval);
+              currentCity = City;
+            });
           });
         });
       });
@@ -55,16 +60,18 @@ window.onload = () => {
       recognition.onend = () => {
         const result = document.querySelector('.searchcityinput').value;
         if (/speak weather/.test(result)) {
-          say();
-        } else if (/volume weather/.test(result)) {
+          say('speak weather');
+        } else if (/volume/.test(result)) {
           say(result.match(/[0-9]+/));
         } else {
           getCountry(result).then((country) => {
             getMap(country).then((map) => {
               getZone(map).then((zone) => {
-                getWeather(getTime(zone), degree).then((City) => {
-                  stopInterval = addInfo(City, language, stopInterval);
-                  currentCity = City;
+                getWeather(getTime(zone), degree).then((weather) => {
+                  getNews(weather).then((City) => {
+                    stopInterval = addInfo(City, language, stopInterval);
+                    currentCity = City;
+                  });
                 });
               });
             });
@@ -77,6 +84,7 @@ window.onload = () => {
   });
 
   document.querySelector('.language').addEventListener('change', ({ target }) => {
+    exist('.error-message');
     storageSet('language', target.value);
     language = currentLanguage();
     currentCity.translateInput(language);
@@ -97,6 +105,7 @@ window.onload = () => {
   document.querySelector('.degrees').addEventListener('click', ({ target }) => {
     switch (target.classList[0]) {
       case 'fahrenheit':
+        exist('.error-message');
         storageSet('temp', 'imperial');
         degree = currentDegree();
         getWeather(currentCity, 'imperial')
@@ -107,6 +116,7 @@ window.onload = () => {
           });
         break;
       case 'celsius':
+        exist('.error-message');
         storageSet('temp', 'metric');
         degree = currentDegree();
         getWeather(currentCity, 'metric')

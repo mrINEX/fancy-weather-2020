@@ -7,12 +7,13 @@ export default function setBackgroundImage(monthtime, weather, city) {
   document.querySelector('.loader').classList.remove('hidden');
   document.querySelector('.weather-default').classList.add('hidden');
   const url = `${URL_API}photos/random?query=${monthtime},${weather},${city}&client_id=${CLIENT_ID}`;
-  console.log(`query=${monthtime},${weather},${city} || key: "speak weather" || key volume = "volume weather 'number 1-9'"`);
+  console.log(`query=${monthtime},${weather},${city} || key: "speak weather" || key volume = "volume '1 - 100%'"`);
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
       exist('.weather-image');
       exist('.weather-image-height');
+      exist('.error-message');
       const img = document.createElement('img');
       if (result.width > result.height) {
         img.setAttribute('class', 'weather-image weather-opacity');
