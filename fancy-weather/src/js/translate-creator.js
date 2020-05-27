@@ -1,6 +1,5 @@
 import translate from './translate';
 import createElement from './createElement';
-import { storageGet } from './localStorage';
 
 const DAYWEEK_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const DAYWEEK_RU = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
@@ -31,20 +30,15 @@ function cityTranslate(City) {
     innerText: `${City.city || City.town || City.state || City.formatted},`,
   });
   const country = createElement('span', {
-    innerText: ` ${City.country || City.county}`,
+    innerText: ` ${City.country || City.county || City.formatted}`,
   });
   return (language) => {
-    if (language === 'ru' || language === 'be') {
-      translate(language, city.textContent).then((value) => {
-        city.innerText = value;
-      });
-      translate(language, country.textContent).then((value) => {
-        country.innerText = value;
-      });
-    } else {
-      city.innerText = `${City.city || City.town || City.state || City.formatted},`;
-      country.innerText = ` ${City.country || City.county}`;
-    }
+    translate(language, city.textContent).then((value) => {
+      city.innerText = value;
+    });
+    translate(language, country.textContent).then((value) => {
+      country.innerText = value;
+    });
     return [city, country];
   };
 }
@@ -166,21 +160,32 @@ function mapTranslate(latInput, lonInput) {
 function newsTranslate(val) {
   const newsWrapper = createElement('div', { classList: ['news_wrapper'] });
   const title = createElement('h3', { classList: ['news__title'], innerText: val.title });
-  const image = createElement('img', { classList: ['news__image'], src: val.urlToImage });
-  const description = createElement('p', { classList: ['news__description'], innerText: val.description });
+  const image = createElement('img', {
+    classList: ['news__image'],
+    src: val.urlToImage || './src/assets/img/icons-news-ref.png',
+  });
+  if (val.urlToImage === 'null') { image.src = './src/assets/img/icons-news-ref.png'; }
+  const description = createElement('p', {
+    classList: ['news__description'],
+    innerHTML: val.description,
+  });
   const source = createElement('a', {
     classList: ['news__source'],
     href: val.url,
     innerText: val.source.name,
   });
   return (language) => {
-    translate(language, title.textContent).then((data) => {
-      title.textContent = data;
-    });
-    translate(language, description.textContent).then((data) => {
-      description.textContent = data;
-    });
-    newsWrapper.append(title, image, description, source);
+    if (title.textContent) {
+      translate(language, title.textContent).then((data) => {
+        title.textContent = data;
+      });
+    }
+    if (description.textContent) {
+      translate(language, description.textContent).then((data) => {
+        description.innerHTML = data;
+      });
+    }
+    newsWrapper.append(title, source, image, description);
     return newsWrapper;
   };
 }

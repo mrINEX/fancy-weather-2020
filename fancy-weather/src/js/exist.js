@@ -8,6 +8,15 @@ function exist(value) {
   }
 }
 
+function existLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader.classList.contains('hidden')) {
+    loader.classList.remove('hidden');
+  } else {
+    loader.classList.add('hidden');
+  }
+}
+
 function error() {
   const isErrorMessage = document.querySelector('.error-message');
   if (!isErrorMessage) {
@@ -60,4 +69,5 @@ export {
   exist,
   error,
   say,
+  existLoader,
 };
