@@ -73,4 +73,17 @@ buttonSearch.append(inputSearch);
 buttonSearch.append(imgVoice);
 buttonSearch.append(inputSubmit);
 
-document.querySelector('body').append(background);
+const keyVoice = createElement('p', {
+  innerHTML: `озвучить прогноз погоды (voice weather forecast) key:
+  <strong style="color: darkred;">"speak weather"</strong>`,
+}, {
+  'text-align-last': 'center',
+});
+const keyVolume = createElement('p', {
+  innerHTML: `настройка звука (sound setting) key:
+  <strong style="color: darkred;">"volume 1 - 100%"</strong>`,
+}, {
+  'text-align-last': 'center',
+});
+
+document.querySelector('body').append(background, keyVoice, keyVolume);
