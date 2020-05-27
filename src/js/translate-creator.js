@@ -123,7 +123,7 @@ function showTothreedays(result, iweather) {
   });
   const tomorromImage = createElement('img', {
     classList: ['tomorrow-image'],
-    src: `http://openweathermap.org/img/wn/${result.list[iweather].weather[0].icon}@2x.png`,
+    src: `https://openweathermap.org/img/wn/${result.list[iweather].weather[0].icon}@2x.png`,
   });
   return (language) => {
     if (language === 'ru') {
