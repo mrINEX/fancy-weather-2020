@@ -16,7 +16,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       favicon: './src/assets/img/favicon.png',
       title: 'movie search',
-      filename: 'index.html', // [duild]: filename: '../index.html' ||| [server]: filename: 'index.html'
+      filename: '../index.html', // [duild]: filename: '../index.html' ||| [server]: filename: 'index.html'
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
