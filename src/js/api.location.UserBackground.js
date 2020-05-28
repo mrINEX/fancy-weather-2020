@@ -13,9 +13,6 @@ export default function setBackgroundImage(monthtime, weather, city) {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      exist('.weather-image');
-      exist('.weather-image-height');
-      exist('.error-message');
       const img = document.createElement('img');
       if (result.width > result.height) {
         img.setAttribute('class', 'weather-image weather-opacity');
@@ -23,9 +20,13 @@ export default function setBackgroundImage(monthtime, weather, city) {
         img.setAttribute('class', 'weather-image-height weather-opacity');
       }
       img.setAttribute('src', `${result.urls.regular}`);
-      document.querySelector('.wrapper').append(img);
       img.onload = () => {
+        exist('.weather-image');
+        exist('.weather-image-height');
+        exist('.error-message');
+        document.querySelector('.wrapper').append(img);
         document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.main-weather').classList.add('weather-opacity-full');
         img.classList.add('weather-opacity-full');
       };
     }).catch(() => {

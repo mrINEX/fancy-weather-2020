@@ -8,15 +8,6 @@ function exist(value) {
   }
 }
 
-function existLoader() {
-  const loader = document.querySelector('.loader');
-  if (loader.classList.contains('hidden')) {
-    loader.classList.remove('hidden');
-  } else {
-    loader.classList.add('hidden');
-  }
-}
-
 function error() {
   const isErrorMessage = document.querySelector('.error-message');
   if (!isErrorMessage) {
@@ -26,20 +17,28 @@ function error() {
     });
     document.querySelector('.nav-left').after(noResult);
   }
+  document.querySelector('.main-weather').classList.add('weather-opacity-full');
   document.querySelector('.loader').classList.add('hidden');
 }
 
 let volume = 0.5;
+let volumeReadable = '50%';
 function say(vol) {
+  if (vol === 'get volume') {
+    return volumeReadable;
+  }
   if (/[0-9]/.test(vol)) {
     if (vol < 1) {
       volume = 0.1;
+      volumeReadable = '1%';
       document.querySelector('.today__volume').textContent = '1%';
     } else if (vol > 99) {
       volume = 1;
+      volumeReadable = '100%';
       document.querySelector('.today__volume').textContent = '100%';
     } else {
       volume = `0.${vol}`;
+      volumeReadable = `${vol}%`;
       document.querySelector('.today__volume').textContent = `${vol}%`;
     }
   }
@@ -63,11 +62,12 @@ function say(vol) {
     msg.lang = currentLanguage();
     window.speechSynthesis.speak(msg);
   }
+  document.querySelector('.searchcityinput').value = '';
+  return 'set';
 }
 
 export {
   exist,
   error,
   say,
-  existLoader,
 };

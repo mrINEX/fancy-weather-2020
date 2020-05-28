@@ -211,8 +211,6 @@ window.onload = function () {
     currentCity.translateMap(language);
   });
   document.querySelector('.refresh').addEventListener('click', function () {
-    Object(_js_exist__WEBPACK_IMPORTED_MODULE_11__["exist"])('.weather-image');
-    Object(_js_exist__WEBPACK_IMPORTED_MODULE_11__["exist"])('.weather-image-height');
     var city = currentCity.city || currentCity.town || currentCity.state || currentCity.country;
     currentCity.infoBackground(currentCity.timeOfDay, currentCity.timeOfYear, city);
   });
@@ -362,7 +360,7 @@ var City = /*#__PURE__*/function () {
       });
       var todayKey = Object(_createElement__WEBPACK_IMPORTED_MODULE_0__["default"])('span', {
         classList: ['today__volume'],
-        innerText: '50%'
+        innerText: "".concat(Object(_exist__WEBPACK_IMPORTED_MODULE_1__["say"])('get volume'))
       });
       var todayNews = Object(_createElement__WEBPACK_IMPORTED_MODULE_0__["default"])('button', {
         classList: ['today__news']
@@ -540,9 +538,6 @@ function setBackgroundImage(monthtime, weather, city) {
   fetch(url).then(function (response) {
     return response.json();
   }).then(function (result) {
-    Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.weather-image');
-    Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.weather-image-height');
-    Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.error-message');
     var img = document.createElement('img');
 
     if (result.width > result.height) {
@@ -552,10 +547,14 @@ function setBackgroundImage(monthtime, weather, city) {
     }
 
     img.setAttribute('src', "".concat(result.urls.regular));
-    document.querySelector('.wrapper').append(img);
 
     img.onload = function () {
+      Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.weather-image');
+      Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.weather-image-height');
+      Object(_exist__WEBPACK_IMPORTED_MODULE_0__["exist"])('.error-message');
+      document.querySelector('.wrapper').append(img);
       document.querySelector('.loader').classList.add('hidden');
+      document.querySelector('.main-weather').classList.add('weather-opacity-full');
       img.classList.add('weather-opacity-full');
     };
   })["catch"](function () {
@@ -661,20 +660,19 @@ function location() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getCountry; });
 /* harmony import */ var _translate_creator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translate-creator */ "./src/js/translate-creator.js");
-/* harmony import */ var _exist__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./exist */ "./src/js/exist.js");
-/* harmony import */ var _City__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./City */ "./src/js/City.js");
-
+/* harmony import */ var _City__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./City */ "./src/js/City.js");
 
 
 var URL_API = 'https://api.opencagedata.com/';
 var KEY = '12ff4fe1ac804a4689043079fcfc5b48';
 function getCountry(city) {
-  Object(_exist__WEBPACK_IMPORTED_MODULE_1__["existLoader"])();
+  document.querySelector('.main-weather').classList.remove('weather-opacity-full');
+  document.querySelector('.loader').classList.remove('hidden');
   var url = "".concat(URL_API, "geocode/v1/json?q=").concat(city, "&key=").concat(KEY, "&pretty=1&no_annotations=1&language=en");
   return fetch(url).then(function (response) {
     return response.json();
   }).then(function (result) {
-    var cityInfo = new _City__WEBPACK_IMPORTED_MODULE_2__["default"](result.results[0]);
+    var cityInfo = new _City__WEBPACK_IMPORTED_MODULE_1__["default"](result.results[0]);
     cityInfo.placeholderInput = 'Search city';
     cityInfo.valueInput = 'SEARCH';
     cityInfo.translateInput = Object(_translate_creator__WEBPACK_IMPORTED_MODULE_0__["inputTranslate"])(cityInfo);
@@ -885,7 +883,7 @@ var inputSubmit = Object(_createElement__WEBPACK_IMPORTED_MODULE_0__["default"])
   type: 'submit'
 });
 var mainWeather = Object(_createElement__WEBPACK_IMPORTED_MODULE_0__["default"])('div', {
-  classList: ['main-weather']
+  classList: ['main-weather', 'weather-opacity']
 });
 var wrapperForWeather = Object(_createElement__WEBPACK_IMPORTED_MODULE_0__["default"])('main', {
   classList: ['wrapperForWeather']
@@ -978,7 +976,7 @@ function createElement(type) {
 /*!*************************!*\
   !*** ./src/js/exist.js ***!
   \*************************/
-/*! exports provided: exist, error, say, existLoader */
+/*! exports provided: exist, error, say */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -986,7 +984,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exist", function() { return exist; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "error", function() { return error; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "say", function() { return say; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "existLoader", function() { return existLoader; });
 /* harmony import */ var _createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createElement */ "./src/js/createElement.js");
 /* harmony import */ var _localStorage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./localStorage */ "./src/js/localStorage.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -1012,16 +1009,6 @@ function exist(value) {
   }
 }
 
-function existLoader() {
-  var loader = document.querySelector('.loader');
-
-  if (loader.classList.contains('hidden')) {
-    loader.classList.remove('hidden');
-  } else {
-    loader.classList.add('hidden');
-  }
-}
-
 function error() {
   var isErrorMessage = document.querySelector('.error-message');
 
@@ -1033,21 +1020,30 @@ function error() {
     document.querySelector('.nav-left').after(noResult);
   }
 
+  document.querySelector('.main-weather').classList.add('weather-opacity-full');
   document.querySelector('.loader').classList.add('hidden');
 }
 
 var volume = 0.5;
+var volumeReadable = '50%';
 
 function say(vol) {
+  if (vol === 'get volume') {
+    return volumeReadable;
+  }
+
   if (/[0-9]/.test(vol)) {
     if (vol < 1) {
       volume = 0.1;
+      volumeReadable = '1%';
       document.querySelector('.today__volume').textContent = '1%';
     } else if (vol > 99) {
       volume = 1;
+      volumeReadable = '100%';
       document.querySelector('.today__volume').textContent = '100%';
     } else {
       volume = "0.".concat(vol);
+      volumeReadable = "".concat(vol, "%");
       document.querySelector('.today__volume').textContent = "".concat(vol, "%");
     }
   }
@@ -1080,6 +1076,9 @@ function say(vol) {
     msg.lang = Object(_localStorage__WEBPACK_IMPORTED_MODULE_1__["currentLanguage"])();
     window.speechSynthesis.speak(msg);
   }
+
+  document.querySelector('.searchcityinput').value = '';
+  return 'set';
 }
 
 

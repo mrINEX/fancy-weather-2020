@@ -53,7 +53,7 @@ export default class City {
     const todaySpeak = createElement('div', { classList: ['today__speak'] });
     const todayKey = createElement('span', {
       classList: ['today__volume'],
-      innerText: '50%',
+      innerText: `${say('get volume')}`,
     });
     const todayNews = createElement('button', {
       classList: ['today__news'],

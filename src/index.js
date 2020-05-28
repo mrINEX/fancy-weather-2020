@@ -97,8 +97,6 @@ window.onload = () => {
   });
 
   document.querySelector('.refresh').addEventListener('click', () => {
-    exist('.weather-image');
-    exist('.weather-image-height');
     const city = currentCity.city || currentCity.town || currentCity.state || currentCity.country;
     currentCity.infoBackground(currentCity.timeOfDay, currentCity.timeOfYear, city);
   });

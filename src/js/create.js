@@ -46,7 +46,7 @@ const inputSubmit = createElement('input', {
   type: 'submit',
 });
 
-const mainWeather = createElement('div', { classList: ['main-weather'] });
+const mainWeather = createElement('div', { classList: ['main-weather', 'weather-opacity'] });
 const wrapperForWeather = createElement('main', { classList: ['wrapperForWeather'] });
 const today = createElement('div', { classList: ['today'] });
 
