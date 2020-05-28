@@ -110,10 +110,12 @@ export default class City {
       newsBlock.remove();
     };
     newsBlock.append(close);
-    this.news.forEach((val) => {
-      const element = val(language);
-      newsBlock.append(element);
-    });
+    if (this.news) {
+      this.news.forEach((val) => {
+        const element = val(language);
+        newsBlock.append(element);
+      });
+    }
     document.querySelector('.weather').after(newsBlock);
   }
 }

@@ -439,10 +439,14 @@ var City = /*#__PURE__*/function () {
       };
 
       newsBlock.append(close);
-      this.news.forEach(function (val) {
-        var element = val(language);
-        newsBlock.append(element);
-      });
+
+      if (this.news) {
+        this.news.forEach(function (val) {
+          var element = val(language);
+          newsBlock.append(element);
+        });
+      }
+
       document.querySelector('.weather').after(newsBlock);
     }
   }]);
@@ -575,12 +579,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var URL_API = 'https://newsapi.org/v2/everything?';
 var KEY = '89978571465f433fbbe6d7687b752d92';
-var CORSone = 'https://cors-anywhere.herokuapp.com/'; // const CORStwo = 'https://cors-proxy.htmldriven.com/';
-
+var CORSone = 'https://cors-anywhere.herokuapp.com/';
 function getNews(City) {
   var country = City.country || City.county || City.formatted;
   var date = City.timeZone.match(/^.+(?=\s)/);
-  var url = "".concat(CORSone).concat(URL_API, "q=").concat(country, "&pageSize=6&from=").concat(date, "&apiKey=").concat(KEY);
+  var url = "".concat(CORSone).concat(URL_API, "q=").concat(country, "&pageSize=7&from=").concat(date, "&apiKey=").concat(KEY);
   return fetch(url).then(function (response) {
     return response.json();
   }).then(function (result) {
@@ -592,6 +595,8 @@ function getNews(City) {
     });
     node.news = newsFuncs;
     return node;
+  })["catch"](function () {
+    return City;
   });
 }
 
