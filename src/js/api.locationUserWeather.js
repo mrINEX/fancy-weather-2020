@@ -21,5 +21,5 @@ export default function getWeather(node, measure) {
         showTothreedays(result, 24)];
       City.infoBackground = setBackgroundImage;
       return City;
-    });
+    }).catch(() => City);
 }

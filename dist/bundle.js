@@ -558,6 +558,7 @@ function setBackgroundImage(monthtime, weather, city) {
       img.classList.add('weather-opacity-full');
     };
   })["catch"](function () {
+    document.querySelector('.loader').classList.add('hidden');
     document.querySelector('.weather-default').classList.remove('hidden');
   });
 }
@@ -739,6 +740,8 @@ function getWeather(node, measure) {
     City.todayWeatherDescription = Object(_translate_creator__WEBPACK_IMPORTED_MODULE_1__["showToday"])(result, measure);
     City.tothreedaysWeather = [Object(_translate_creator__WEBPACK_IMPORTED_MODULE_1__["showTothreedays"])(result, 8), Object(_translate_creator__WEBPACK_IMPORTED_MODULE_1__["showTothreedays"])(result, 16), Object(_translate_creator__WEBPACK_IMPORTED_MODULE_1__["showTothreedays"])(result, 24)];
     City.infoBackground = _api_location_UserBackground__WEBPACK_IMPORTED_MODULE_0__["default"];
+    return City;
+  })["catch"](function () {
     return City;
   });
 }
