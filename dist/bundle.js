@@ -560,6 +560,7 @@ function setBackgroundImage(monthtime, weather, city) {
   })["catch"](function () {
     document.querySelector('.loader').classList.add('hidden');
     document.querySelector('.weather-default').classList.remove('hidden');
+    document.querySelector('.main-weather').classList.add('weather-opacity-full');
   });
 }
 
@@ -577,25 +578,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getNews; });
 /* harmony import */ var _translate_creator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translate-creator */ "./src/js/translate-creator.js");
 
-var URL_API = 'https://newsapi.org/v2/everything?';
-var KEY = '89978571465f433fbbe6d7687b752d92';
-var CORSone = 'https://cors-anywhere.herokuapp.com/';
+var URL_RIVER = 'https://api.newsriver.io/v2/search';
+var KEY_RIVER = 'sBBqsGXiYgF0Db5OV5tAw4bxNMXovpHuNnDMcYJJO8EGrK4S0XI2e-uTYCww-9cfn2pHZrSf1gT2PUujH1YaQA';
 function getNews(City) {
   var country = City.country || City.county || City.formatted;
-  var date = City.timeZone.match(/^.+(?=\s)/);
-  var url = "".concat(CORSone).concat(URL_API, "q=").concat(country, "&pageSize=7&from=").concat(date, "&apiKey=").concat(KEY);
-  return fetch(url).then(function (response) {
+  return fetch("".concat(URL_RIVER, "?query=text:").concat(country, " AND language:EN&limit=7"), {
+    headers: {
+      Authorization: KEY_RIVER
+    }
+  }).then(function (response) {
     return response.json();
   }).then(function (result) {
     var node = City;
     var newsFuncs = [];
-    result.articles.forEach(function (val) {
-      var element = Object(_translate_creator__WEBPACK_IMPORTED_MODULE_0__["newsTranslate"])(val);
-      newsFuncs.push(element);
+    result.forEach(function (val, index) {
+      if (index > 0) {
+        var element = Object(_translate_creator__WEBPACK_IMPORTED_MODULE_0__["newsTranslate"])(val);
+        newsFuncs.push(element);
+      }
     });
     node.news = newsFuncs;
     return node;
-  })["catch"](function () {
+  })["catch"](function (err) {
+    console.log(err);
     return City;
   });
 }
@@ -1414,7 +1419,7 @@ function newsTranslate(val) {
   });
   var image = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('img', {
     classList: ['news__image'],
-    src: val.urlToImage || './src/assets/img/icons-news-ref.png'
+    src: val.elements[0].url || './src/assets/img/icons-news-ref.png'
   });
 
   if (val.urlToImage === 'null') {
@@ -1423,13 +1428,21 @@ function newsTranslate(val) {
 
   var description = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('p', {
     classList: ['news__description'],
-    innerHTML: val.description
+    innerText: "".concat(val.text.substr(0, 200), "...")
   });
   var source = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('a', {
     classList: ['news__source'],
-    href: val.url,
-    innerText: val.source.name
+    href: val.url
   });
+  var website;
+
+  if (val.website) {
+    website = val.website.hostName || val.website.name || val.website.domainName;
+  } else {
+    website = val.url;
+  }
+
+  source.textContent = website;
   return function (language) {
     if (title.textContent) {
       Object(_translate__WEBPACK_IMPORTED_MODULE_0__["default"])(language, title.textContent).then(function (data) {
@@ -1439,7 +1452,7 @@ function newsTranslate(val) {
 
     if (description.textContent) {
       Object(_translate__WEBPACK_IMPORTED_MODULE_0__["default"])(language, description.textContent).then(function (data) {
-        description.innerHTML = data;
+        description.textContent = data;
       });
     }
 
@@ -1470,6 +1483,8 @@ function translate(language, text) {
     return response.json();
   }).then(function (result) {
     return result.text;
+  })["catch"](function () {
+    return text;
   });
 }
 

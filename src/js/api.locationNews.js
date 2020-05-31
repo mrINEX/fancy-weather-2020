@@ -1,23 +1,28 @@
-import { newsTranslate } from './translate-creator';
+import { newsTranslate, cityTranslate } from './translate-creator';
 
-const URL_API = 'https://newsapi.org/v2/everything?';
-const KEY = '89978571465f433fbbe6d7687b752d92';
-const CORSone = 'https://cors-anywhere.herokuapp.com/';
+const URL_RIVER = 'https://api.newsriver.io/v2/search';
+const KEY_RIVER = 'sBBqsGXiYgF0Db5OV5tAw4bxNMXovpHuNnDMcYJJO8EGrK4S0XI2e-uTYCww-9cfn2pHZrSf1gT2PUujH1YaQA';
 
 export default function getNews(City) {
   const country = City.country || City.county || City.formatted;
-  const date = City.timeZone.match(/^.+(?=\s)/);
-  const url = `${CORSone}${URL_API}q=${country}&pageSize=7&from=${date}&apiKey=${KEY}`;
-  return fetch(url)
-    .then((response) => response.json())
+  return fetch(`${URL_RIVER}?query=text:${country} AND language:EN&limit=7`, {
+    headers: {
+      Authorization: KEY_RIVER,
+    },
+  }).then((response) => response.json())
     .then((result) => {
       const node = City;
       const newsFuncs = [];
-      result.articles.forEach((val) => {
-        const element = newsTranslate(val);
-        newsFuncs.push(element);
+      result.forEach((val, index) => {
+        if (index > 0) {
+          const element = newsTranslate(val);
+          newsFuncs.push(element);
+        }
       });
       node.news = newsFuncs;
       return node;
-    }).catch(() => City);
+    }).catch((err) => {
+      console.log(err);
+      return City;
+    });
 }

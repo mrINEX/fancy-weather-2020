@@ -32,5 +32,6 @@ export default function setBackgroundImage(monthtime, weather, city) {
     }).catch(() => {
       document.querySelector('.loader').classList.add('hidden');
       document.querySelector('.weather-default').classList.remove('hidden');
+      document.querySelector('.main-weather').classList.add('weather-opacity-full');
     });
 }

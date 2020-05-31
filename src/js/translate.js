@@ -5,5 +5,6 @@ export default function translate(language, text) {
   const url = `${URL_API}api/v1.5/tr.json/translate?lang=${language}&key=${API_KEY}&text=${text}`;
   return fetch(url)
     .then((response) => response.json())
-    .then((result) => result.text);
+    .then((result) => result.text)
+    .catch(() => text);
 }

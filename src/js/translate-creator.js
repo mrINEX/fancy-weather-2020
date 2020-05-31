@@ -162,18 +162,24 @@ function newsTranslate(val) {
   const title = createElement('h3', { classList: ['news__title'], innerText: val.title });
   const image = createElement('img', {
     classList: ['news__image'],
-    src: val.urlToImage || './src/assets/img/icons-news-ref.png',
+    src: val.elements[0].url || './src/assets/img/icons-news-ref.png',
   });
   if (val.urlToImage === 'null') { image.src = './src/assets/img/icons-news-ref.png'; }
   const description = createElement('p', {
     classList: ['news__description'],
-    innerHTML: val.description,
+    innerText: `${val.text.substr(0, 200)}...`,
   });
   const source = createElement('a', {
     classList: ['news__source'],
     href: val.url,
-    innerText: val.source.name,
   });
+  let website;
+  if (val.website) {
+    website = val.website.hostName || val.website.name || val.website.domainName;
+  } else {
+    website = val.url;
+  }
+  source.textContent = website;
   return (language) => {
     if (title.textContent) {
       translate(language, title.textContent).then((data) => {
@@ -182,7 +188,7 @@ function newsTranslate(val) {
     }
     if (description.textContent) {
       translate(language, description.textContent).then((data) => {
-        description.innerHTML = data;
+        description.textContent = data;
       });
     }
     newsWrapper.append(title, source, image, description);
