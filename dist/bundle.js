@@ -582,7 +582,7 @@ var URL_RIVER = 'https://api.newsriver.io/v2/search';
 var KEY_RIVER = 'sBBqsGXiYgF0Db5OV5tAw4bxNMXovpHuNnDMcYJJO8EGrK4S0XI2e-uTYCww-9cfn2pHZrSf1gT2PUujH1YaQA';
 function getNews(City) {
   var country = City.country || City.county || City.formatted;
-  return fetch("".concat(URL_RIVER, "?query=text:").concat(country, " AND language:EN&limit=7"), {
+  return fetch("".concat(URL_RIVER, "?query=text:").concat(country, " AND language:EN&limit=10"), {
     headers: {
       Authorization: KEY_RIVER
     }
@@ -591,8 +591,8 @@ function getNews(City) {
   }).then(function (result) {
     var node = City;
     var newsFuncs = [];
-    result.forEach(function (val, index) {
-      if (index > 0) {
+    result.forEach(function (val) {
+      if (!/Betting ADDICTION/.test(val.title)) {
         var element = Object(_translate_creator__WEBPACK_IMPORTED_MODULE_0__["newsTranslate"])(val);
         newsFuncs.push(element);
       }
@@ -1418,21 +1418,26 @@ function newsTranslate(val) {
     innerText: val.title
   });
   var image = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('img', {
-    classList: ['news__image'],
-    src: val.elements[0].url || './src/assets/img/icons-news-ref.png'
+    classList: ['news__image']
   });
 
-  if (val.urlToImage === 'null') {
+  if (val.elements.length) {
+    if (val.elements[0].url) {
+      image.src = val.elements[0].url;
+    } else {
+      image.src = './src/assets/img/icons-news-ref.png';
+    }
+  } else {
     image.src = './src/assets/img/icons-news-ref.png';
   }
 
   var description = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('p', {
     classList: ['news__description'],
-    innerText: "".concat(val.text.substr(0, 200), "...")
+    innerText: "".concat(val.text ? val.text.substr(0, 200) : '...no description...', "...")
   });
   var source = Object(_createElement__WEBPACK_IMPORTED_MODULE_1__["default"])('a', {
     classList: ['news__source'],
-    href: val.url
+    href: val.url ? val.url : 'no url'
   });
   var website;
 

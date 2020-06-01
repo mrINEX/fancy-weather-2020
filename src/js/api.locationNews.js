@@ -5,7 +5,7 @@ const KEY_RIVER = 'sBBqsGXiYgF0Db5OV5tAw4bxNMXovpHuNnDMcYJJO8EGrK4S0XI2e-uTYCww-
 
 export default function getNews(City) {
   const country = City.country || City.county || City.formatted;
-  return fetch(`${URL_RIVER}?query=text:${country} AND language:EN&limit=7`, {
+  return fetch(`${URL_RIVER}?query=text:${country} AND language:EN&limit=10`, {
     headers: {
       Authorization: KEY_RIVER,
     },
@@ -13,8 +13,8 @@ export default function getNews(City) {
     .then((result) => {
       const node = City;
       const newsFuncs = [];
-      result.forEach((val, index) => {
-        if (index > 0) {
+      result.forEach((val) => {
+        if (!/Betting ADDICTION/.test(val.title)) {
           const element = newsTranslate(val);
           newsFuncs.push(element);
         }

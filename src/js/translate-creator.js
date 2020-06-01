@@ -162,16 +162,23 @@ function newsTranslate(val) {
   const title = createElement('h3', { classList: ['news__title'], innerText: val.title });
   const image = createElement('img', {
     classList: ['news__image'],
-    src: val.elements[0].url || './src/assets/img/icons-news-ref.png',
   });
-  if (val.urlToImage === 'null') { image.src = './src/assets/img/icons-news-ref.png'; }
+  if (val.elements.length) {
+    if (val.elements[0].url) {
+      image.src = val.elements[0].url;
+    } else {
+      image.src = './src/assets/img/icons-news-ref.png';
+    }
+  } else {
+    image.src = './src/assets/img/icons-news-ref.png';
+  }
   const description = createElement('p', {
     classList: ['news__description'],
-    innerText: `${val.text.substr(0, 200)}...`,
+    innerText: `${val.text ? val.text.substr(0, 200) : '...no description...'}...`,
   });
   const source = createElement('a', {
     classList: ['news__source'],
-    href: val.url,
+    href: val.url ? val.url : 'no url',
   });
   let website;
   if (val.website) {
